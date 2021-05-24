@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="632.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="OilMill.Controller">
+   <children>
+       <Label layoutX="23.0" layoutY="4.0" prefHeight="27.0" prefWidth="587.0" text="New Wellamadda Coconut Oil Mills" textAlignment="CENTER" textOverrun="CENTER_WORD_ELLIPSIS">
+           <font>
+               <Font name="System Bold" size="14.0" />
+           </font>
+       </Label>
+
+       <Label layoutX="21.0" layoutY="43.0" prefHeight="27.0" prefWidth="133.0" text="Date">
+           <font>
+               <Font size="18.0" />
+           </font>
+       </Label>
+       <DatePicker fx:id="date" layoutX="80.0" layoutY="43.0" />
+
+       <Label layoutX="300.0" layoutY="43.0" prefHeight="27.0" prefWidth="133.0" text="Cash in Hand">
+           <font>
+               <Font size="18.0" />
+           </font>
+       </Label>
+       <TextField fx:id="cashTotal" layoutX="420.0" layoutY="39.0" prefHeight="35.0" prefWidth="184.0">
+           <font>
+               <Font size="18.0" />
+           </font>
+       </TextField>
+
+       <TableView fx:id="tableView" layoutX="21.0" layoutY="89.0" prefHeight="350.0" prefWidth="587.0">
+        <columns>
+          <TableColumn fx:id="code" prefWidth="54.0" text="Code" />
+          <TableColumn fx:id="name" prefWidth="123.0" text="Product" />
+            <TableColumn fx:id="unit" prefWidth="78.0" text="Unit Price" />
+            <TableColumn fx:id="quantity" prefWidth="83.0" text="Quantity" />
+            <TableColumn fx:id="total" prefWidth="123.0" text="Total" />
+            <TableColumn fx:id="cashTaken" prefWidth="105.0" text="Cash Given" />
+        </columns>
+      </TableView>
+
+      <Label layoutX="22.0" layoutY="473.0" prefHeight="27.0" prefWidth="133.0" text="Product Code">
+          <font>
+            <Font size="18.0" />
+          </font></Label>
+       <TextField fx:id="id" layoutX="154.0" layoutY="469.0" onKeyReleased="#readCode" prefHeight="35.0" prefWidth="146.0">
+           <font>
+               <Font size="18.0" />
+           </font></TextField>
+
+       <Label layoutX="21.0" layoutY="526.0" prefHeight="27.0" prefWidth="139.0" text="Product Name">
+           <font>
+               <Font size="18.0" />
+           </font>
+       </Label>
+       <TextField fx:id="productName" layoutX="154.0" layoutY="522.0" prefHeight="35.0" prefWidth="146.0">
+           <font>
+               <Font size="18.0" />
+           </font>
+       </TextField>
+
+      <Label layoutX="21.0" layoutY="577.0" prefHeight="27.0" prefWidth="117.0" text="Quantity">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+       <TextField fx:id="quan" layoutX="154.0" layoutY="569.0" onKeyReleased="#readQuantity" prefHeight="35.0" prefWidth="146.0">
+           <font>
+               <Font size="18.0" />
+           </font></TextField>
+
+      <Label layoutX="341.0" layoutY="469.0" prefHeight="27.0" prefWidth="108.0" text="Cash Given">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+       <TextField fx:id="cashGiven" layoutX="449.0" layoutY="465.0" onKeyReleased="#readCash" prefHeight="35.0" prefWidth="146.0">
+           <font>
+               <Font size="18.0" />
+           </font></TextField>
+
+      <Label layoutX="341.0" layoutY="526.0" prefHeight="27.0" prefWidth="69.0" text="Bill Total">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+       <TextField fx:id="billTotal" layoutX="449.0" layoutY="522.0" prefHeight="35.0" prefWidth="146.0">
+           <font>
+               <Font size="18.0" />
+           </font></TextField>
+
+      <Label layoutX="343.0" layoutY="577.0" prefHeight="27.0" prefWidth="133.0" text="Balance">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="balance" layoutX="449.0" layoutY="573.0" onKeyReleased="#readCash" prefHeight="35.0" prefWidth="146.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+
+   </children>
+</AnchorPane>
