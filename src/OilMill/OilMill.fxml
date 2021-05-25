@@ -21,18 +21,18 @@
                <Font size="18.0" />
            </font>
        </Label>
-       <DatePicker fx:id="date" layoutX="80.0" layoutY="43.0" />
+       <DatePicker fx:id="date" layoutX="80.0" layoutY="43.0" onKeyReleased="#readDate"  />
 
        <Label layoutX="300.0" layoutY="43.0" prefHeight="27.0" prefWidth="133.0" text="Cash in Hand">
            <font>
                <Font size="18.0" />
            </font>
        </Label>
-       <TextField fx:id="cashTotal" layoutX="420.0" layoutY="39.0" prefHeight="35.0" prefWidth="184.0">
+       <Label fx:id="cashTotal" layoutX="420.0" layoutY="39.0" prefHeight="35.0" prefWidth="184.0">
            <font>
                <Font size="18.0" />
            </font>
-       </TextField>
+       </Label>
 
        <TableView fx:id="tableView" layoutX="21.0" layoutY="89.0" prefHeight="350.0" prefWidth="587.0">
         <columns>
@@ -59,11 +59,11 @@
                <Font size="18.0" />
            </font>
        </Label>
-       <TextField fx:id="productName" layoutX="154.0" layoutY="522.0" prefHeight="35.0" prefWidth="146.0">
+       <Label fx:id="productName" layoutX="154.0" layoutY="522.0" prefHeight="35.0" prefWidth="146.0">
            <font>
                <Font size="18.0" />
            </font>
-       </TextField>
+       </Label>
 
       <Label layoutX="21.0" layoutY="577.0" prefHeight="27.0" prefWidth="117.0" text="Quantity">
          <font>
@@ -78,7 +78,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-       <TextField fx:id="cashGiven" layoutX="449.0" layoutY="465.0" onKeyReleased="#readCash" prefHeight="35.0" prefWidth="146.0">
+       <TextField fx:id="cashGiven" alignment="CENTER_RIGHT" layoutX="449.0" layoutY="465.0" onKeyReleased="#readCash" prefHeight="35.0" prefWidth="146.0">
            <font>
                <Font size="18.0" />
            </font></TextField>
@@ -87,21 +87,21 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-       <TextField fx:id="billTotal" layoutX="449.0" layoutY="522.0" prefHeight="35.0" prefWidth="146.0">
+       <Label fx:id="billTotal" alignment="CENTER_RIGHT" layoutX="449.0" layoutY="522.0" prefHeight="35.0" prefWidth="146.0">
            <font>
                <Font size="18.0" />
-           </font></TextField>
+           </font></Label>
 
       <Label layoutX="343.0" layoutY="577.0" prefHeight="27.0" prefWidth="133.0" text="Balance">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="balance" layoutX="449.0" layoutY="573.0" onKeyReleased="#readCash" prefHeight="35.0" prefWidth="146.0">
+      <Label fx:id="balance" alignment="CENTER_RIGHT" layoutX="449.0" layoutY="573.0" prefHeight="35.0" prefWidth="146.0">
          <font>
             <Font size="18.0" />
          </font>
-      </TextField>
+      </Label>
 
    </children>
 </AnchorPane>

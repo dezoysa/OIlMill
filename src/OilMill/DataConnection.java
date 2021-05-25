@@ -1,6 +1,7 @@
 package OilMill;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,34 +51,34 @@ public class DataConnection {
         }
     }
 
-    public List<Product> getSalesList() throws SQLException {
+    public List<Product> getSalesList(LocalDate date) throws SQLException {
         try (
                 Statement stmnt = connection.createStatement();
-                ResultSet rs = stmnt.executeQuery("select * from sales");
+                ResultSet rs = stmnt.executeQuery("select * from sales where date=\""+date.toString()+"\"");
         ){
             List<Product> personList = new ArrayList<>();
             while (rs.next()) {
                 int code = Integer.parseInt(rs.getString("code"));
                 int unit = Integer.parseInt(rs.getString("unit"));
-                int quntity = Integer.parseInt(rs.getString("quantity"));
-                int total = Integer.parseInt(rs.getString("total"));
-
-                Product p = new Product(code, "OIL",unit,quntity,total);
+                double quntity = Double.parseDouble(rs.getString("quantity"));
+                double total = Double.parseDouble(rs.getString("total"));
+                Product p = new Product(code,Controller.productNames.get(code),unit,quntity,total);
                 personList.add(p);
             }
             return personList ;
         }
     }
 
-    public int putSale(Product p) throws SQLException {
+    public int putSale(LocalDate date,Product p) throws SQLException {
 
-        String sql = "INSERT INTO sales (code,unit,quantity,total) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO sales (code,unit,quantity,total,date) VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement stmnt = connection.prepareStatement(sql);
         stmnt.setInt(1,Integer.parseInt(p.getCode()));
         stmnt.setInt(2,Integer.parseInt(p.getUnit()));
-        stmnt.setInt(3,Integer.parseInt(p.getQuantity()));
-        stmnt.setInt(4,Integer.parseInt(p.getTotal()));
+        stmnt.setDouble(3,Double.parseDouble(p.getQuantity()));
+        stmnt.setDouble(4,Double.parseDouble(p.getTotal()));
+        stmnt.setString(5,date.toString());
 
         return stmnt.executeUpdate();
     }

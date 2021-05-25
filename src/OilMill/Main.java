@@ -18,7 +18,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 620, 680));
 
         primaryStage.setOnShown(event-> {
-            controller.id.requestFocus();
+           // controller.id.requestFocus();
+            controller.date.requestFocus();
         });
 
         primaryStage.show();

@@ -8,13 +8,13 @@ public class Product {
     private int code = 0;
     private String name = null;
     private int unit = 0;
-    private int quntity=0;
-    private int total=0;
+    private double quntity=0;
+    private double total=0;
 
     public Product() {
     }
 
-    public Product(int code, String name, int unit,int q,int total) {
+    public Product(int code, String name, int unit,double q,double total) {
         this.code = code;
         this.name = name;
         this.unit = unit;
@@ -39,13 +39,11 @@ public class Product {
         this.unit = u;
     }
 
-    public String getQuantity() {return Integer.toString(quntity);}
-    public void setQuantity(int q) {
+    public String getQuantity() {return Double.toString(quntity);}
+    public void setQuantity(double q) {
         this.quntity = q;
     }
 
-    public String getTotal() {return Integer.toString(total);}
-    public void setTotal(int t) {
-        this.total = t;
-    }
+    public String getTotal() {return Double.toString(total);}
+    public void setTotal(double t) { this.total = t; }
 }
