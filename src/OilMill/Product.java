@@ -14,6 +14,14 @@ public class Product {
     public Product() {
     }
 
+    public Product(int code, String name, int unit,double q) {
+        this.code = code;
+        this.name = name;
+        this.unit = unit;
+        this.quntity = q;
+        this.total = unit*q;
+    }
+
     public Product(int code, String name, int unit,double q,double total) {
         this.code = code;
         this.name = name;
@@ -39,11 +47,10 @@ public class Product {
         this.unit = u;
     }
 
-    public String getQuantity() {return Double.toString(quntity);}
+    public String getQuantity() {return String.format("%.2f",quntity);}
     public void setQuantity(double q) {
         this.quntity = q;
     }
-
-    public String getTotal() {return Double.toString(total);}
+    public String getTotal() {return String.format("%.2f",total);}
     public void setTotal(double t) { this.total = t; }
 }

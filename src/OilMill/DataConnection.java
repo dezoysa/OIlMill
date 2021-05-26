@@ -36,6 +36,25 @@ public class DataConnection {
         }
     }
 
+    public double getTotalQuantity(LocalDate date,int code) throws SQLException {
+        String sql="SELECT SUM(quantity) FROM sales WHERE code="+code+" and date=\""+date.toString()+"\"";
+        PreparedStatement statement =  connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+        result.next();
+        String value = result.getString(1);
+        if (value!=null)  return Double.parseDouble(value);
+        else return 0;
+    }
+    public double getTotalSale(LocalDate date) throws SQLException {
+        String sql="SELECT SUM(total) FROM sales WHERE code!=0 and date=\""+date.toString()+"\"";
+        PreparedStatement statement =  connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+        result.next();
+        String value = result.getString(1);
+        if (value!=null) return Double.parseDouble(value);
+        else return 0;
+    }
+
     public HashMap<Integer,String> getProductNames() throws SQLException {
         try (
                 Statement stmnt = connection.createStatement();
