@@ -2,15 +2,11 @@ package OilMill;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
@@ -44,7 +40,7 @@ public class Controller {
     public static HashMap<Integer, String> productNames = null;
     private HashMap<Integer, Integer> price = null;
     private List<Product> sales = null;
-    private List<Product> bill = new ArrayList<>();
+    private final List<Product> bill = new ArrayList<>();
 
     private LocalDate currentDate = null;
 
@@ -62,7 +58,7 @@ public class Controller {
         cashGiven.setDisable(true);
     }
 
-    public void prapareTable() throws SQLException, ClassNotFoundException {
+    public void prepareTable() {
         //  TableView tableView = new TableView();
 
         code.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -79,13 +75,13 @@ public class Controller {
         total.setStyle("-fx-alignment: CENTER-RIGHT;");
     }
 
-    public void printStat() throws SQLException {
-        double totalB=data.getTotalQuantity(currentDate,1);
-        double totalL=data.getTotalQuantity(currentDate,2);
-        double totalK=data.getTotalQuantity(currentDate,3);
+    public void printStat(LocalDate date) throws SQLException {
+        double totalB=data.getTotalQuantity(date,1);
+        double totalL=data.getTotalQuantity(date,2);
+        double totalK=data.getTotalQuantity(date,3);
         double total=(totalB*.75+totalL)*.9+totalK;
 
-        double totalS=data.getTotalSale(currentDate);
+        double totalS=data.getTotalSale(date);
 
         String s=String.format("Sale(Kg,Income,Avg) : %.2f Kg , Rs. %.2f , Rs. %.2f",total,totalS,totalS/total);
         stat.setText(s);
@@ -106,7 +102,7 @@ public class Controller {
             }
             if (currentDate != null) {
                 sales = data.getSalesList(currentDate);
-                this.printStat();
+                this.printStat(currentDate);
                 tableView.getItems().addAll(sales);
                 cashTotal.setText(this.printDouble(this.getTotal()));
 
@@ -205,10 +201,10 @@ public class Controller {
                 tableView.getItems().add(p);
                 tableView.scrollTo(p);
                 if(code!=0) bill.add(p);
-                if (data.putSale(currentDate, p) > 0) System.out.println("A new user was inserted successfully!");
+                data.putSale(currentDate, p);
                 cashTotal.setText(this.printDouble(this.getTotal()));
                 billTotal.setText(this.printDouble(this.getBillTotal()));
-                this.printStat();
+                this.printStat(currentDate);
                 break;
             default:
         }
@@ -233,7 +229,7 @@ public class Controller {
         return total;
     }
 
-    public void readCash(KeyEvent keyEvent) throws IOException, SQLException {
+    public void readCash(KeyEvent keyEvent) throws SQLException {
         String value = cashGiven.getText();
 
         if (value.matches("\\d+")) {
@@ -243,6 +239,9 @@ public class Controller {
                 double bal = given - total;
                 billTotal.setText(this.printDouble(total));
                 balance.setText(this.printDouble(bal));
+
+                printControl printBill=new printControl(total,given,bal);
+                printBill.print(bill);
 
                 if (bal < 0) {
                     Product p = new Product(0, productNames.get(0), price.get(0), bal);
@@ -263,8 +262,5 @@ public class Controller {
         } else cashGiven.setText("");
         keyEvent.consume();
     }
-
-
-
 
 }

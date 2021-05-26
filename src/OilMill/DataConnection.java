@@ -23,9 +23,9 @@ public class DataConnection {
     public HashMap<Integer,Integer> getPriceList() throws SQLException {
         try (
                 Statement stmnt = connection.createStatement();
-                ResultSet rs = stmnt.executeQuery("select * from price");
+                ResultSet rs = stmnt.executeQuery("select * from price")
         ){
-            HashMap<Integer,Integer> pList=new HashMap<Integer,Integer>();
+            HashMap<Integer,Integer> pList=new HashMap<>();
 
             while (rs.next()) {
                 int code = Integer.parseInt(rs.getString("code"));
@@ -58,9 +58,9 @@ public class DataConnection {
     public HashMap<Integer,String> getProductNames() throws SQLException {
         try (
                 Statement stmnt = connection.createStatement();
-                ResultSet rs = stmnt.executeQuery("select * from product");
+                ResultSet rs = stmnt.executeQuery("select * from product")
         ){
-            HashMap<Integer,String> pNames=new HashMap<Integer,String>();
+            HashMap<Integer,String> pNames=new HashMap<>();
             while (rs.next()) {
                 int code = Integer.parseInt(rs.getString("code"));
                 String name = rs.getString("name");
@@ -73,15 +73,15 @@ public class DataConnection {
     public List<Product> getSalesList(LocalDate date) throws SQLException {
         try (
                 Statement stmnt = connection.createStatement();
-                ResultSet rs = stmnt.executeQuery("select * from sales where date=\""+date.toString()+"\"");
+                ResultSet rs = stmnt.executeQuery("select * from sales where date=\""+date.toString()+"\"")
         ){
             List<Product> personList = new ArrayList<>();
             while (rs.next()) {
                 int code = Integer.parseInt(rs.getString("code"));
                 int unit = Integer.parseInt(rs.getString("unit"));
-                double quntity = Double.parseDouble(rs.getString("quantity"));
+                double quantity = Double.parseDouble(rs.getString("quantity"));
                 double total = Double.parseDouble(rs.getString("total"));
-                Product p = new Product(code,Controller.productNames.get(code),unit,quntity,total);
+                Product p = new Product(code,Controller.productNames.get(code),unit,quantity,total);
                 personList.add(p);
             }
             return personList ;

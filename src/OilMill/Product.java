@@ -1,14 +1,11 @@
 package OilMill;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Product {
 
     private int code = 0;
     private String name = null;
     private int unit = 0;
-    private double quntity=0;
+    private double quantity =0;
     private double total=0;
 
     public Product() {
@@ -18,7 +15,7 @@ public class Product {
         this.code = code;
         this.name = name;
         this.unit = unit;
-        this.quntity = q;
+        this.quantity = q;
         this.total = unit*q;
     }
 
@@ -26,7 +23,7 @@ public class Product {
         this.code = code;
         this.name = name;
         this.unit = unit;
-        this.quntity = q;
+        this.quantity = q;
         this.total = total;
     }
 
@@ -47,9 +44,9 @@ public class Product {
         this.unit = u;
     }
 
-    public String getQuantity() {return String.format("%.2f",quntity);}
+    public String getQuantity() {return String.format("%.2f", quantity);}
     public void setQuantity(double q) {
-        this.quntity = q;
+        this.quantity = q;
     }
     public String getTotal() {return String.format("%.2f",total);}
     public void setTotal(double t) { this.total = t; }

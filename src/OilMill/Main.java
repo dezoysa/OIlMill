@@ -13,7 +13,7 @@ public class Main extends Application {
        FXMLLoader loader = new FXMLLoader(getClass().getResource("OilMill.fxml"));
         Parent root = loader.load();
         Controller controller = loader.getController();
-        controller.prapareTable();
+        controller.prepareTable();
         primaryStage.setTitle("Wellamadda Oil Mills");
         primaryStage.setScene(new Scene(root, 620, 680));
 

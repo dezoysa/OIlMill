@@ -30,14 +30,13 @@
            </font>
        </Label>
 
-       <TableView fx:id="tableView" layoutX="21.0" layoutY="104.0" prefHeight="350.0" prefWidth="587.0">
+       <TableView fx:id="tableView" layoutX="25.0" layoutY="105.0" prefHeight="350.0" prefWidth="575.0">
         <columns>
           <TableColumn fx:id="code" prefWidth="54.0" text="Code" />
           <TableColumn fx:id="name" prefWidth="123.0" text="Product" />
-            <TableColumn fx:id="unit" prefWidth="78.0" text="Unit Price" />
-            <TableColumn fx:id="quantity" prefWidth="83.0" text="Quantity" />
-            <TableColumn fx:id="total" prefWidth="123.0" text="Total" />
-            <TableColumn fx:id="cashTaken" prefWidth="105.0" text="Cash Given" />
+            <TableColumn fx:id="unit" prefWidth="100.0" text="Unit Price" />
+            <TableColumn fx:id="quantity" prefWidth="109.0" text="Quantity" />
+            <TableColumn fx:id="total" prefWidth="156.0" text="Total" />
         </columns>
       </TableView>
 
@@ -50,7 +49,7 @@
                <Font size="18.0" />
            </font></TextField>
 
-       <Label fx:id="productName" layoutX="21.0" layoutY="533.0" prefHeight="27.0" prefWidth="139.0" text="Product Name">
+       <Label fx:id="productName" layoutX="21.0" layoutY="533.0" prefHeight="27.0" prefWidth="139.0" text="Product Price">
            <font>
                <Font size="18.0" />
            </font>
@@ -98,7 +97,10 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="stat" layoutX="22.0" layoutY="637.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="575.0" text="Stat" />
+      <Button fx:id="stat" layoutX="22.0" layoutY="632.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="575.0" text="Stat">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
       <Label alignment="TOP_CENTER" layoutX="35.0" layoutY="14.0" prefHeight="17.0" prefWidth="575.0" text="New Wellamadda Coconut Oil Mills">
          <font>
             <Font name="System Bold" size="18.0" />
