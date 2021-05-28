@@ -1,6 +1,7 @@
 package OilMill;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -163,6 +164,12 @@ public class Controller {
         KeyCode keyCode = keyEvent.getCode();
         String value = unitPrice.getText();
 
+        if (keyCode.equals(KeyCode.ESCAPE)) {
+            id.setDisable(false);
+            unitPrice.setDisable(true);
+            id.requestFocus();
+        }
+
         if (value.matches("\\d+")) {
             if (keyCode.equals(KeyCode.ENTER)) {
                 unitPrice.setDisable(true);
@@ -179,14 +186,21 @@ public class Controller {
         String idValue = id.getText();
         String unitValue = unitPrice.getText();
 
+        KeyCode keyCode=keyEvent.getCode();
+        if (keyCode.equals(KeyCode.ESCAPE)) {
+            id.setDisable(false);
+            quan.setDisable(true);
+            id.requestFocus();
+        }
+
         String quanValue = quan.getText();
      //   if(quanValue.matches("([+-]?\\d*\\.?\\d*)+")){
         if (quanValue.matches("[+-]?\\d{0,7}([\\.]\\d{0,2})?")) {
-            if (!quanValue.isEmpty() && keyEvent.getCode().equals(KeyCode.ENTER)) {
+            if (!quanValue.isEmpty() && keyCode.equals(KeyCode.ENTER)) {
                 int code = Integer.parseInt(idValue);
                 int unitPrice=Integer.parseInt(unitValue);
                 double quantity = Double.parseDouble(quanValue);
-                this.addTableRaw(code, unitPrice,quantity);
+                if(quantity!=0) this.addTableRaw(code, unitPrice,quantity);
                 quan.setDisable(true);
                 id.setDisable(false);
                 id.requestFocus();
@@ -233,8 +247,16 @@ public class Controller {
     public void readCash(KeyEvent keyEvent) throws SQLException{
         String value = cashGiven.getText();
 
+        KeyCode keyCode=keyEvent.getCode();
+        if (keyCode.equals(KeyCode.ESCAPE)) {
+            id.setDisable(false);
+            cashGiven.setDisable(true);
+            id.requestFocus();
+        }
+
+
         if (value.matches("\\d+")) {
-            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            if (keyCode.equals(KeyCode.ENTER)) {
                 int given = Integer.parseInt(cashGiven.getText());
                 double total=this.getBillTotal();
                 double bal = given - total;
@@ -266,4 +288,8 @@ public class Controller {
         keyEvent.consume();
     }
 
+    public void closeApp(ActionEvent actionEvent) throws SQLException {
+        data.shutdown();
+        System.exit(0);
+    }
 }
