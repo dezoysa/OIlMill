@@ -50,12 +50,13 @@ public class Controller {
         price = data.getPriceList();
         productNames = data.getProductNames();
 
-        // Set the Locale to US
-      //  Locale.setDefault(Locale.ENGLISH);
         id.setDisable(true);
         unitPrice.setDisable(true);
         quan.setDisable(true);
         cashGiven.setDisable(true);
+
+        LocalDate  localDate = LocalDate.now();
+        date.setValue(localDate);
     }
 
     public void prepareTable() {
@@ -229,7 +230,7 @@ public class Controller {
         return total;
     }
 
-    public void readCash(KeyEvent keyEvent) throws SQLException {
+    public void readCash(KeyEvent keyEvent) throws SQLException{
         String value = cashGiven.getText();
 
         if (value.matches("\\d+")) {
@@ -241,7 +242,7 @@ public class Controller {
                 balance.setText(this.printDouble(bal));
 
                 printControl printBill=new printControl(total,given,bal);
-                printBill.print(bill);
+                printBill.printView(bill);
 
                 if (bal < 0) {
                     Product p = new Product(0, productNames.get(0), price.get(0), bal);
@@ -251,7 +252,9 @@ public class Controller {
                 }
 
                 if (bill != null) bill.clear();
-                // balance.setText("");
+                balance.setText("");
+                billTotal.setText("");
+                cashGiven.setText("");
                 id.setText("");
                 unitPrice.setText("");
                 quan.setText("");
