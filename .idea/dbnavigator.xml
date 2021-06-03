@@ -26,8 +26,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="5258470c-b51e-4489-844a-59ff69ac0878">
-        <schema name="mill" object-types="table, view, procedure, function, constraint, index, column, dataset trigger" />
-        <schema name="mysql" object-types="table, view" />
+        <schema name="mysql" object-types="table" />
       </connection>
     </loaded-nodes>
   </component>

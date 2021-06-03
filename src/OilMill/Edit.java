@@ -22,6 +22,7 @@ public class Edit {
     @FXML private TableColumn<Product, String> name;
     @FXML private TableColumn<Product, String> price;
 
+    private static Stage stage;
 
     DataConnection connection = new DataConnection();
     Controller controller = new Controller();
@@ -66,8 +67,12 @@ public class Edit {
     }
 
 
+    public void setStage(Stage stage){
+        this.stage = stage;
+    }
+
+
     public void save(MouseEvent mouseEvent) throws SQLException {
-        //connection.delete();
         ObservableList<Product> rows = edit_table.getItems();
         for (Product p : rows) {
             int code = Integer.parseInt(p.getCode());
@@ -84,9 +89,7 @@ public class Edit {
                 connection.putProduct(code, name, price);
             }
         }
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("saved");
-        alert.showAndWait();
+        this.stage.close();
 
     }
 

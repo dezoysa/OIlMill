@@ -315,6 +315,7 @@ public class Controller {
         Stage newWindow = new Stage();
         newWindow.setTitle("Wellamadda Oil Mills ");
         newWindow.setScene(new Scene(root));
+        edit.setStage(newWindow);
         newWindow.show();
     }
 }
