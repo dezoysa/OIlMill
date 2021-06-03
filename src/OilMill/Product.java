@@ -7,8 +7,12 @@ public class Product {
     private int unit = 0;
     private double quantity =0;
     private double total=0;
+    private int price = 0;
 
-    public Product() {
+    public Product(int code,String name,int price) {
+        this.code = code;
+        this.name = name;
+        this.price = price;
     }
 
     public Product(int code, String name, int unit,double q) {
@@ -48,6 +52,11 @@ public class Product {
     public void setQuantity(double q) {
         this.quantity = q;
     }
+
     public String getTotal() {return String.format("%.2f",total);}
     public void setTotal(double t) { this.total = t; }
+
+    public String getPrice() {return Integer.toString(price);}
+    public void setPrice(int t1) { this.price = t1; }
+
 }

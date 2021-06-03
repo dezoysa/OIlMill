@@ -1,5 +1,6 @@
 package OilMill;
 
+import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -103,4 +104,30 @@ public class DataConnection {
     }
 
 
+    public void putProduct(int code, String name,int price)throws SQLException{
+        String sql = "INSERT INTO product (code,name) VALUES (?,?)";
+        PreparedStatement stmnt = connection.prepareStatement(sql);
+        stmnt.setInt(1,code);
+        stmnt.setString(2,name);
+        stmnt.executeUpdate();
+
+        String p = "INSERT INTO price (code,price) VALUES (?,?)";
+        PreparedStatement statement = connection.prepareStatement(p);
+        statement.setInt(1,code);
+        statement.setInt(2,price);
+        statement.executeUpdate();
+
+    }
+
+    public void update(int code, String name,int price)throws SQLException{
+        String sql = "UPDATE product SET name ='"+name+"' WHERE code ="+code;
+
+        PreparedStatement stmnt = connection.prepareStatement(sql);
+        stmnt.executeUpdate();
+
+        String p = "UPDATE price SET price ='"+price+"' WHERE code ="+code;
+        PreparedStatement statement = connection.prepareStatement(p);
+        statement.executeUpdate();
+
+    }
 }

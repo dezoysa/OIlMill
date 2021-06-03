@@ -1,13 +1,19 @@
 package OilMill;
 
+import com.sun.media.jfxmediaimpl.platform.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
@@ -32,14 +38,14 @@ public class Controller {
     @FXML public TextField unitPrice;
     @FXML public Button stat;
 
-    private static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
-    private static final String DATABASE_USERNAME = "user";
-    private static final String DATABASE_PASSWORD = "sathindu";
+    public static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
+    public static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
+    public static final String DATABASE_USERNAME = "sathindu";
+    public static final String DATABASE_PASSWORD = "123456";
     private static final DataConnection data = new DataConnection();
 
     public static HashMap<Integer, String> productNames = null;
-    private HashMap<Integer, Integer> price = null;
+    public static HashMap<Integer, Integer> price = null;
     private List<Product> sales = null;
     private final List<Product> bill = new ArrayList<>();
 
@@ -133,31 +139,34 @@ public class Controller {
                 billTotal.setText("");
             }
 
-            switch (code) {
-                case 0:
-                    productName.setText(productNames.get(code)+" in and out");
-                    if (keyCode.equals(KeyCode.ENTER)) {
-                        id.setDisable(true);
-                        unitPrice.setText(Integer.toString(price.get(code)));
-                        quan.setDisable(false);
-                        quan.requestFocus();
-                    }
-                    break;
-                case 1, 2, 3, 4:
-                    productName.setText(productNames.get(code)+" Price");
-                    if (keyCode.equals(KeyCode.ENTER)) {
-                        id.setDisable(true);
-                        unitPrice.setDisable(false);
-                        unitPrice.requestFocus();
-                        unitPrice.setText(Integer.toString(price.get(code)));
-                        unitPrice.selectAll();
-                    }
-                    break;
-                default:
+            if(code == 0) {
+                productName.setText("Cash in and out");
+                if (keyCode.equals(KeyCode.ENTER)) {
+                    id.setDisable(true);
+                    unitPrice.setText("");
+                    quan.setDisable(false);
+                    quan.requestFocus();
+                }
+            }else if(this.isCode(productNames.keySet(),code)) {
+                productName.setText(productNames.get(code) + " Price");
+                if (keyCode.equals(KeyCode.ENTER)) {
+                    id.setDisable(true);
+                    unitPrice.setDisable(false);
+                    unitPrice.requestFocus();
+                    unitPrice.setText(Integer.toString(price.get(code)));
+                    unitPrice.selectAll();
+                }
+            }else{
                     productName.setText("");
             }
         } else id.setText("");
         keyEvent.consume();
+    }
+    private boolean isCode(Set<Integer> codes,int num){
+        for (int code:codes)
+            if(code == num) return true ;
+
+            return false;
     }
 
     public void setUnitPrice(KeyEvent keyEvent) {
@@ -198,9 +207,15 @@ public class Controller {
         if (quanValue.matches("[+-]?\\d{0,7}([\\.]\\d{0,2})?")) {
             if (!quanValue.isEmpty() && keyCode.equals(KeyCode.ENTER)) {
                 int code = Integer.parseInt(idValue);
-                int unitPrice=Integer.parseInt(unitValue);
+                int unitPrice = 0;
+                if (code ==0){
+                    unitPrice = 1;
+                    this.addTableRaw(code,unitPrice,1);
+                }else {
+                    unitPrice = Integer.parseInt(unitValue);
+                }
                 double quantity = Double.parseDouble(quanValue);
-                if(quantity!=0) this.addTableRaw(code, unitPrice,quantity);
+                if (quantity != 0) this.addTableRaw(code, unitPrice, quantity);
                 quan.setDisable(true);
                 id.setDisable(false);
                 id.requestFocus();
@@ -210,21 +225,20 @@ public class Controller {
     }
 
     public void addTableRaw(int code, int uniPrice,double quantity) throws SQLException {
-        switch (code) {
-            case 0, 1, 2, 3, 4:
-                Product p = new Product(code, productNames.get(code),uniPrice,quantity);
-                tableView.getItems().add(p);
-                tableView.scrollTo(p);
-                if(code!=0) bill.add(p);
-                data.putSale(currentDate, p);
-                cashTotal.setText(this.printDouble(this.getTotal()));
-                billTotal.setText(this.printDouble(this.getBillTotal()));
-                this.printStat(currentDate);
-                break;
-            default:
+
+        if (code ==0 || isCode(productNames.keySet(), code)) {
+            Product p = new Product(code, productNames.get(code), uniPrice, quantity);
+            tableView.getItems().add(p);
+            tableView.scrollTo(p);
+            if (code != 0) bill.add(p);
+            data.putSale(currentDate, p);
+            cashTotal.setText(this.printDouble(this.getTotal()));
+            billTotal.setText(this.printDouble(this.getBillTotal()));
+            this.printStat(currentDate);
+        } else {
+            id.setText("");
+            quan.setText("");
         }
-        id.setText("");
-        quan.setText("");
     }
 
     public double getTotal() {
@@ -291,5 +305,16 @@ public class Controller {
     public void closeApp(ActionEvent actionEvent) throws SQLException {
         data.shutdown();
         System.exit(0);
+    }
+
+    public void edit1(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("edit.fxml"));
+        Parent root = loader.load();
+        Edit edit = loader.getController();
+        edit.table();
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Wellamadda Oil Mills ");
+        newWindow.setScene(new Scene(root));
+        newWindow.show();
     }
 }
