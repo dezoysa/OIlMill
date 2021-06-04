@@ -130,4 +130,16 @@ public class DataConnection {
         statement.executeUpdate();
 
     }
+
+    public void delete(int code)throws SQLException{
+        String sql = "DELETE FROM product WHERE code ="+code;
+
+        PreparedStatement stmnt = connection.prepareStatement(sql);
+        stmnt.executeUpdate();
+
+        String p = "DELETE FROM price WHERE code ="+code;
+        PreparedStatement statement = connection.prepareStatement(p);
+        statement.executeUpdate();
+
+    }
 }

@@ -7,34 +7,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="336.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="OilMill.Edit">
+<AnchorPane prefHeight="478.0" prefWidth="557.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="OilMill.Edit">
    <children>
-      <TableView fx:id="edit_table" editable="true" layoutX="17.0" layoutY="49.0" prefHeight="240.0" prefWidth="467.0">
+      <TableView fx:id="edit_table" editable="true" layoutX="17.0" layoutY="49.0" prefHeight="361.0" prefWidth="516.0">
         <columns>
-          <TableColumn fx:id="code" prefWidth="53.0" resizable="false" text="Code" />
-          <TableColumn fx:id="name" minWidth="9.0" prefWidth="274.0" resizable="false" text="Name" />
-            <TableColumn fx:id="price" minWidth="4.0" prefWidth="139.0" resizable="false" text="Price" />
+          <TableColumn fx:id="code" prefWidth="96.0" resizable="false" text="Code" />
+          <TableColumn fx:id="name" minWidth="9.0" prefWidth="248.0" resizable="false" text="Name" />
+            <TableColumn fx:id="price" minWidth="4.0" prefWidth="122.0" resizable="false" text="Price" />
         </columns>
       </TableView>
-      <Button layoutX="430.0" layoutY="295.0" mnemonicParsing="false" onMouseClicked="#save" text="save">
+      <Button fx:id="save" layoutX="289.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#save" prefHeight="29.0" prefWidth="100.0" text="Save">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="433.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#add" prefHeight="29.0" prefWidth="50.0" text="add">
+      <Button fx:id="add" layoutX="45.0" layoutY="425.0" mnemonicParsing="false" onMouseClicked="#add" prefHeight="29.0" prefWidth="100.0" text="Add Product">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Label layoutX="14.0" layoutY="14.0" text="New Wallamadda Mill's Product List">
+      <Button fx:id="delete" layoutX="163.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#delete" text="Delete Product">
          <font>
-            <Font size="20.0" />
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="17.0" prefWidth="467.0" text="New Wallamadda Oill Mill's Product List" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+         <font>
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="17.0" layoutY="297.0" mnemonicParsing="false" text="Delete">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
+      <Button layoutX="412.0" layoutY="427.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="27.0" prefWidth="100.0" text="Cancel" />
    </children>
 </AnchorPane>

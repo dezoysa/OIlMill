@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -40,8 +41,8 @@ public class Controller {
 
     public static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
-    public static final String DATABASE_USERNAME = "sathindu";
-    public static final String DATABASE_PASSWORD = "123456";
+    public static final String DATABASE_USERNAME = "user";
+    public static final String DATABASE_PASSWORD = "sathindu";
     private static final DataConnection data = new DataConnection();
 
     public static HashMap<Integer, String> productNames = null;
@@ -49,7 +50,7 @@ public class Controller {
     private List<Product> sales = null;
     private final List<Product> bill = new ArrayList<>();
 
-    private LocalDate currentDate = null;
+    public static LocalDate currentDate = null;
 
 
     public void initialize() throws SQLException, ClassNotFoundException {
@@ -64,15 +65,17 @@ public class Controller {
 
         LocalDate  localDate = LocalDate.now();
         date.setValue(localDate);
+        stat.setText(this.productNames.toString());
     }
 
     public void prepareTable() {
         //  TableView tableView = new TableView();
 
         code.setCellValueFactory(new PropertyValueFactory<>("code"));
-        // code.setCellFactory(TextFieldTableCell.<Product>forTableColumn());
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        name.setCellFactory(TextFieldTableCell.<Product>forTableColumn());
+
         unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         unit.setStyle("-fx-alignment: CENTER-RIGHT;");
 
@@ -83,23 +86,12 @@ public class Controller {
         total.setStyle("-fx-alignment: CENTER-RIGHT;");
     }
 
-    public void printStat(LocalDate date) throws SQLException {
-        double totalB=data.getTotalQuantity(date,1);
-        double totalL=data.getTotalQuantity(date,2);
-        double totalK=data.getTotalQuantity(date,3);
-        double total=(totalB*.75+totalL)*.9+totalK;
-
-        double totalS=data.getTotalSale(date);
-
-        String s=String.format("Sale(Kg,Income,Avg) : %.2f Kg , Rs. %.2f , Rs. %.2f",total,totalS,totalS/total);
-        stat.setText(s);
-    }
-
     public String printDouble(double number){
         return String.format("%.2f",number);
     }
 
     public void readDate(KeyEvent keyEvent) throws SQLException {
+
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             currentDate = date.getValue();
          //   System.out.println(currentDate.toString());
@@ -110,7 +102,6 @@ public class Controller {
             }
             if (currentDate != null) {
                 sales = data.getSalesList(currentDate);
-                this.printStat(currentDate);
                 tableView.getItems().addAll(sales);
                 cashTotal.setText(this.printDouble(this.getTotal()));
 
@@ -126,12 +117,17 @@ public class Controller {
         String value = id.getText();
 
         if (keyCode.equals(KeyCode.SPACE)) {
+            if(billTotal.getText().equals("")) return;
+            if(Double.parseDouble(billTotal.getText())<=0) return;
             id.setDisable(true);
+            quan.setText("");
+            unitPrice.setText("");
             cashGiven.setDisable(false);
             cashGiven.requestFocus();
-        }
-        if (value.matches("\\d+")) {
+
+        } else if (value.matches("\\d+")) {
             int code = Integer.parseInt(value);
+            productName.setText(productNames.get(code));
 
             if(bill.isEmpty()) {
                 cashGiven.setText("");
@@ -139,29 +135,24 @@ public class Controller {
                 billTotal.setText("");
             }
 
-            if(code == 0) {
-                productName.setText("Cash in and out");
-                if (keyCode.equals(KeyCode.ENTER)) {
+            if (keyCode.equals(KeyCode.ENTER)) {
+                if(code == 0) {
                     id.setDisable(true);
                     unitPrice.setText("");
                     quan.setDisable(false);
                     quan.requestFocus();
-                }
-            }else if(this.isCode(productNames.keySet(),code)) {
-                productName.setText(productNames.get(code) + " Price");
-                if (keyCode.equals(KeyCode.ENTER)) {
+                } else if(isCode(this.price.keySet(),code)){
                     id.setDisable(true);
                     unitPrice.setDisable(false);
                     unitPrice.requestFocus();
                     unitPrice.setText(Integer.toString(price.get(code)));
                     unitPrice.selectAll();
-                }
-            }else{
-                    productName.setText("");
+                } else id.setText("");
             }
         } else id.setText("");
         keyEvent.consume();
     }
+
     private boolean isCode(Set<Integer> codes,int num){
         for (int code:codes)
             if(code == num) return true ;
@@ -207,13 +198,8 @@ public class Controller {
         if (quanValue.matches("[+-]?\\d{0,7}([\\.]\\d{0,2})?")) {
             if (!quanValue.isEmpty() && keyCode.equals(KeyCode.ENTER)) {
                 int code = Integer.parseInt(idValue);
-                int unitPrice = 0;
-                if (code ==0){
-                    unitPrice = 1;
-                    this.addTableRaw(code,unitPrice,1);
-                }else {
-                    unitPrice = Integer.parseInt(unitValue);
-                }
+                int unitPrice =1;
+                if(code!=0) unitPrice = Integer.parseInt(unitValue);
                 double quantity = Double.parseDouble(quanValue);
                 if (quantity != 0) this.addTableRaw(code, unitPrice, quantity);
                 quan.setDisable(true);
@@ -226,15 +212,16 @@ public class Controller {
 
     public void addTableRaw(int code, int uniPrice,double quantity) throws SQLException {
 
-        if (code ==0 || isCode(productNames.keySet(), code)) {
+        if (isCode(productNames.keySet(), code)) {
             Product p = new Product(code, productNames.get(code), uniPrice, quantity);
             tableView.getItems().add(p);
             tableView.scrollTo(p);
-            if (code != 0) bill.add(p);
+            if (code != 0) {
+                bill.add(p);
+            }
             data.putSale(currentDate, p);
             cashTotal.setText(this.printDouble(this.getTotal()));
             billTotal.setText(this.printDouble(this.getBillTotal()));
-            this.printStat(currentDate);
         } else {
             id.setText("");
             quan.setText("");
@@ -262,6 +249,7 @@ public class Controller {
         String value = cashGiven.getText();
 
         KeyCode keyCode=keyEvent.getCode();
+
         if (keyCode.equals(KeyCode.ESCAPE)) {
             id.setDisable(false);
             cashGiven.setDisable(true);
@@ -270,6 +258,7 @@ public class Controller {
 
 
         if (value.matches("\\d+")) {
+
             if (keyCode.equals(KeyCode.ENTER)) {
                 int given = Integer.parseInt(cashGiven.getText());
                 double total=this.getBillTotal();
@@ -281,7 +270,7 @@ public class Controller {
                 printBill.printView(bill);
 
                 if (bal < 0) {
-                    Product p = new Product(0, productNames.get(0), price.get(0), bal);
+                    Product p = new Product(0,"Cash",1, bal);
                     tableView.getItems().add(p);
                     data.putSale(currentDate, p);
                     cashTotal.setText(this.printDouble(this.getTotal()));
@@ -307,11 +296,25 @@ public class Controller {
         System.exit(0);
     }
 
-    public void edit1(ActionEvent actionEvent) throws IOException {
+    public void edit(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("edit.fxml"));
         Parent root = loader.load();
         Edit edit = loader.getController();
         edit.table();
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Wellamadda Oil Mills ");
+        newWindow.setScene(new Scene(root));
+        edit.setStage(newWindow);
+        newWindow.showAndWait();
+        stat.setText(this.productNames.toString());
+    }
+
+    public void stat(ActionEvent actionEvent) throws IOException, SQLException {
+        if(this.currentDate==null) return;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("edit.fxml"));
+        Parent root = loader.load();
+        Edit edit = loader.getController();
+        edit.tableStat();
         Stage newWindow = new Stage();
         newWindow.setTitle("Wellamadda Oil Mills ");
         newWindow.setScene(new Scene(root));

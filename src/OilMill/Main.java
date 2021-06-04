@@ -15,7 +15,7 @@ public class Main extends Application {
         Controller controller = loader.getController();
         controller.prepareTable();
         primaryStage.setTitle("Wellamadda Oil Mills");
-        primaryStage.setScene(new Scene(root, 620, 680));
+        primaryStage.setScene(new Scene(root, 620, 720));
 
         primaryStage.setOnShown(event-> {
            // controller.id.requestFocus();
@@ -24,7 +24,6 @@ public class Main extends Application {
 
         primaryStage.show();
     }
-
 
 
     public static void main(String[] args) {
