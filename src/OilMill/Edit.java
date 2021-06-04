@@ -1,20 +1,14 @@
 package OilMill;
 
-import com.sun.media.jfxmediaimpl.platform.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Set;
 
 public class Edit {
@@ -26,62 +20,65 @@ public class Edit {
     @FXML private Button add;
     @FXML private Button save;
     @FXML private Button delete;
-
+    @FXML private Label title;
 
     private static Stage stage;
 
     DataConnection connection = new DataConnection();
-   // Controller controller = new Controller();
 
     public void initialize() throws SQLException, ClassNotFoundException {
         connection.DataAccessor(Controller.DATABASE_DRIVER, Controller.DATABASE_URL, Controller.DATABASE_USERNAME, Controller.DATABASE_PASSWORD);
     }
-    public void table(){
-        code.setCellValueFactory(new PropertyValueFactory<>("code"));
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        setEdit_table();
-    }
 
-    public void tableStat() throws SQLException {
+    public void setStatTable() throws SQLException {
+        title.setText("Sales Summary on "+Controller.currentDate.toString());
         add.setVisible(false);
         delete.setVisible(false);
         save.setVisible(false);
 
-        code.setCellValueFactory(new PropertyValueFactory<>("code"));
+        code.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         code.setStyle("-fx-alignment: CENTER-LEFT;");
         code.setText("QTY");
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        price.setCellValueFactory(new PropertyValueFactory<>("total"));
         price.setStyle("-fx-alignment: CENTER-RIGHT;");
         price.setText("Total");
 
-        int total=0;
         double killo=0;
         double punak=0;
         for (int code : Controller.productNames.keySet()){
+            if(code==0) continue;
+            double quan=connection.getProductQuantity(Controller.currentDate,code);
+            if(quan==0) continue;
+            double total= connection.getProductTotal(Controller.currentDate,code);
             String name=Controller.productNames.get(code);
-            int quan=(int)connection.getTotalQuantity(Controller.currentDate,code);
-            int price=Controller.price.get(code);
-            if(code!=0) total+=quan*price;
 
-            if(name.toLowerCase().contains("litter")) killo+=quan*.75;
-            else if (name.toLowerCase().contains("bottle")) killo+=quan*.675;
+            if(name.toLowerCase().contains("litter")) killo+=quan * 0.9;
+            else if (name.toLowerCase().contains("bottle")) killo+=quan * 0.675;
             else if (name.toLowerCase().contains("killo")) killo+=quan;
-            else  if (name.toLowerCase().contains("punak")) punak+=quan*price;
+            else  if (name.toLowerCase().contains("punak")) punak+=total;
 
-            this.addTableRow(quan,name,quan*price);
+            this.addStatTableRow(quan,name,total);
         }
-        this.addTableRow(0,"Total Sale",total);
-        this.addTableRow(0,"Oil Sale",(int)(total-punak));
-        this.addTableRow(0,"Oil Sale in Kilo",(int)killo);
-        this.addTableRow(0,"Per Kilo Price",(int)((total-punak)/killo));
+        double totalSale=connection.getTotalSale(Controller.currentDate);
+        this.addStatTableRow(0,"Total Sale",totalSale);
+        this.addStatTableRow(0,"Oil Sale",totalSale-punak);
+        this.addStatTableRow(0,"Oil Sale in Kilo",killo);
+        this.addStatTableRow(0,"Per Kilo Price",(totalSale-punak)/killo);
     }
 
 
-    public void setEdit_table(){
-        set_table();
+    public void setEditTable(){
+
+        code.setCellValueFactory(new PropertyValueFactory<>("code"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        for (int code : Controller.productNames.keySet()){
+            this.addEditTableRow(code,Controller.productNames.get(code),Controller.price.get(code));
+        }
+
         code.setCellFactory(TextFieldTableCell.forTableColumn());
         code.setOnEditCommit(e->{
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setCode(Integer.parseInt(e.getNewValue()));
@@ -101,18 +98,16 @@ public class Edit {
 
     }
 
-
-    public void addTableRow(int code,String name,int price){
+    public void addEditTableRow(int code,String name,int price){
         Product p = new Product(code,name,price);
         edit_table.getItems().add(p);
         edit_table.scrollTo(p);
     }
 
-    public void set_table(){
-        for (int code : Controller.productNames.keySet()){
-                this.addTableRow(code,Controller.productNames.get(code),Controller.price.get(code));
-        }
-
+    public void addStatTableRow(double quantity,String name,double total){
+        Product p = new Product(0,name,0,quantity,total);
+        edit_table.getItems().add(p);
+        edit_table.scrollTo(p);
     }
 
 
@@ -127,6 +122,7 @@ public class Edit {
 
         for (Product p : rows) {
             int code = Integer.parseInt(p.getCode());
+            if(code==0) continue;
             String name = p.getName();
             int price = Integer.parseInt(p.getPrice());
 
@@ -153,7 +149,7 @@ public class Edit {
     }
 
     public void add(MouseEvent mouseEvent) {
-        addTableRow(0,"Type code,name and price in this raw)",0);
+        addEditTableRow(0,"Type code,name and price in this raw)",0);
     }
 
     public void delete(MouseEvent mouseEvent) throws SQLException {

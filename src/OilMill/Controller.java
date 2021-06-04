@@ -1,6 +1,5 @@
 package OilMill;
 
-import com.sun.media.jfxmediaimpl.platform.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -300,9 +299,9 @@ public class Controller {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("edit.fxml"));
         Parent root = loader.load();
         Edit edit = loader.getController();
-        edit.table();
+        edit.setEditTable();
         Stage newWindow = new Stage();
-        newWindow.setTitle("Wellamadda Oil Mills ");
+        newWindow.setTitle("New Wellamadda Oil Mills");
         newWindow.setScene(new Scene(root));
         edit.setStage(newWindow);
         newWindow.showAndWait();
@@ -314,9 +313,9 @@ public class Controller {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("edit.fxml"));
         Parent root = loader.load();
         Edit edit = loader.getController();
-        edit.tableStat();
+        edit.setStatTable();
         Stage newWindow = new Stage();
-        newWindow.setTitle("Wellamadda Oil Mills ");
+        newWindow.setTitle("New Wellamadda Oil Mills");
         newWindow.setScene(new Scene(root));
         edit.setStage(newWindow);
         newWindow.show();

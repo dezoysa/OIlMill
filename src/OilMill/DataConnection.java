@@ -3,6 +3,7 @@ package OilMill;
 import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +38,7 @@ public class DataConnection {
         }
     }
 
-    public double getTotalQuantity(LocalDate date,int code) throws SQLException {
+    public double getProductQuantity(LocalDate date,int code) throws SQLException {
         String sql="SELECT SUM(quantity) FROM sales WHERE code="+code+" and date=\""+date.toString()+"\"";
         PreparedStatement statement =  connection.prepareStatement(sql);
         ResultSet result = statement.executeQuery();
@@ -46,6 +47,17 @@ public class DataConnection {
         if (value!=null)  return Double.parseDouble(value);
         else return 0;
     }
+
+    public double getProductTotal(LocalDate date,int code) throws SQLException {
+        String sql="SELECT SUM(total) FROM sales WHERE code="+code+" and date=\""+date.toString()+"\"";
+        PreparedStatement statement =  connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+        result.next();
+        String value = result.getString(1);
+        if (value!=null)  return Double.parseDouble(value);
+        else return 0;
+    }
+
     public double getTotalSale(LocalDate date) throws SQLException {
         String sql="SELECT SUM(total) FROM sales WHERE code!=0 and date=\""+date.toString()+"\"";
         PreparedStatement statement =  connection.prepareStatement(sql);
@@ -89,7 +101,7 @@ public class DataConnection {
         }
     }
 
-    public int putSale(LocalDate date,Product p) throws SQLException {
+    public int putSale(LocalDate localDate,Product p) throws SQLException {
 
         String sql = "INSERT INTO sales (code,unit,quantity,total,date) VALUES (?, ?, ?, ?, ?)";
 
@@ -98,8 +110,9 @@ public class DataConnection {
         stmnt.setInt(2,Integer.parseInt(p.getUnit()));
         stmnt.setDouble(3,Double.parseDouble(p.getQuantity()));
         stmnt.setDouble(4,Double.parseDouble(p.getTotal()));
-        stmnt.setString(5,date.toString());
 
+        Date date = Date.valueOf(localDate);
+        stmnt.setDate(5,date);
         return stmnt.executeUpdate();
     }
 

@@ -48,7 +48,10 @@ public class Product {
         this.unit = u;
     }
 
-    public String getQuantity() {return String.format("%.2f", quantity);}
+    public String getQuantity() {
+        if(quantity==0) return "";
+        else return String.format("%.2f", quantity);
+    }
     public void setQuantity(double q) {
         this.quantity = q;
     }

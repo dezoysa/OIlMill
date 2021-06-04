@@ -14,11 +14,10 @@ public class Main extends Application {
         Parent root = loader.load();
         Controller controller = loader.getController();
         controller.prepareTable();
-        primaryStage.setTitle("Wellamadda Oil Mills");
+        primaryStage.setTitle("New Wellamadda Oil Mills");
         primaryStage.setScene(new Scene(root, 620, 720));
 
         primaryStage.setOnShown(event-> {
-           // controller.id.requestFocus();
             controller.date.requestFocus();
         });
 
