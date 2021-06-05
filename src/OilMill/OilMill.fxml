@@ -83,7 +83,7 @@
 
       <Label layoutX="341.0" layoutY="533.0" prefHeight="27.0" prefWidth="69.0" text="Bill Total">
          <font>
-            <Font size="18.0" />
+            <Font size="15.0" />
          </font></Label>
        <Label fx:id="billTotal" alignment="CENTER_RIGHT" layoutX="449.0" layoutY="529.0" prefHeight="35.0" prefWidth="146.0">
            <font>

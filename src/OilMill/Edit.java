@@ -75,10 +75,6 @@ public class Edit {
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        for (int code : Controller.productNames.keySet()){
-            this.addEditTableRow(code,Controller.productNames.get(code),Controller.price.get(code));
-        }
-
         code.setCellFactory(TextFieldTableCell.forTableColumn());
         code.setOnEditCommit(e->{
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setCode(Integer.parseInt(e.getNewValue()));
@@ -93,8 +89,11 @@ public class Edit {
         price.setOnEditCommit(e->{
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setPrice(Integer.parseInt(e.getNewValue()));
         });
-
         edit_table.setEditable(true);
+
+        for (int code : Controller.productNames.keySet()){
+            this.addEditTableRow(code,Controller.productNames.get(code),Controller.price.get(code));
+        }
 
     }
 

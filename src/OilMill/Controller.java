@@ -40,8 +40,8 @@ public class Controller {
 
     public static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
-    public static final String DATABASE_USERNAME = "user";
-    public static final String DATABASE_PASSWORD = "sathindu";
+    public static final String DATABASE_USERNAME = "sathindu";
+    public static final String DATABASE_PASSWORD = "123456";
     private static final DataConnection data = new DataConnection();
 
     public static HashMap<Integer, String> productNames = null;
@@ -266,7 +266,8 @@ public class Controller {
                 balance.setText(this.printDouble(bal));
 
                 printControl printBill=new printControl(total,given,bal);
-                printBill.printView(bill);
+              //  printBill.printView(bill);
+                printBill.print(bill);
 
                 if (bal < 0) {
                     Product p = new Product(0,"Cash",1, bal);
@@ -276,9 +277,9 @@ public class Controller {
                 }
 
                 if (bill != null) bill.clear();
-                balance.setText("");
-                billTotal.setText("");
-                cashGiven.setText("");
+             //   balance.setText("");
+               // billTotal.setText("");
+               // cashGiven.setText("");
                 id.setText("");
                 unitPrice.setText("");
                 quan.setText("");

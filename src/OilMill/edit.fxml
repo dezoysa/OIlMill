@@ -11,22 +11,22 @@
    <children>
       <TableView fx:id="edit_table" editable="true" layoutX="17.0" layoutY="49.0" prefHeight="361.0" prefWidth="516.0">
         <columns>
-          <TableColumn fx:id="code" prefWidth="96.0" resizable="false" text="Code" />
-          <TableColumn fx:id="name" minWidth="9.0" prefWidth="248.0" resizable="false" text="Name" />
-            <TableColumn fx:id="price" minWidth="4.0" prefWidth="122.0" resizable="false" text="Price" />
+          <TableColumn fx:id="code" prefWidth="112.0" resizable="false" text="Code" />
+          <TableColumn fx:id="name" minWidth="9.0" prefWidth="266.0" resizable="false" text="Name" />
+            <TableColumn fx:id="price" minWidth="4.0" prefWidth="137.0" resizable="false" text="Price" />
         </columns>
       </TableView>
-      <Button fx:id="save" layoutX="289.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#save" prefHeight="29.0" prefWidth="100.0" text="Save">
+      <Button fx:id="save" layoutX="309.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#save" prefHeight="29.0" prefWidth="100.0" text="Save">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="add" layoutX="45.0" layoutY="425.0" mnemonicParsing="false" onMouseClicked="#add" prefHeight="29.0" prefWidth="100.0" text="Add Product">
+      <Button fx:id="add" layoutX="17.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#add" prefHeight="29.0" prefWidth="118.0" text="Add Product">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="delete" layoutX="163.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#delete" text="Delete Product">
+      <Button fx:id="delete" layoutX="155.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#delete" text="Delete Product">
          <font>
             <Font size="15.0" />
          </font>
@@ -36,6 +36,6 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="412.0" layoutY="427.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="27.0" prefWidth="100.0" text="Cancel" />
+      <Button layoutX="434.0" layoutY="427.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="27.0" prefWidth="100.0" text="Cancel" />
    </children>
 </AnchorPane>
