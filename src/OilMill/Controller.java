@@ -329,6 +329,7 @@ public class Controller {
             Product p=tableView.getSelectionModel().getSelectedItem();
             rows.remove(p);
             data.deleteSale(currentDate, p);
+            //here
         }
     }
 }
