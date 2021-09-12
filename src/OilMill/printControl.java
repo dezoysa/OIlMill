@@ -74,25 +74,25 @@ public class printControl {
     }
 
     private String setHeader() {
-         String header = "\t\t  Sekkuwa\n" +
-                        "\t\t091-2255898\n" +
-                        "Date:"+printDate+"\t\tTime:"+printTime+"\n"
-                        +"----------------------------------------\n"
-                        +"Name\t\tQty\tRate\tAmt\n"
-                        +"----------------------------------------\n";
+         String header = "         Sekkuwa\n" +
+                        "        091-2255898\n" +
+                        "Date:"+printDate+"\tTime:"+printTime+"\n"
+                        +"----------------------------\n"
+                        +"Name\tQty\tRate\tAmt\n"
+                        +"----------------------------\n";
          return header;
     }
 
 
     private String setFooter() {
-        String footter =  "\nTotal Amount\t=\t"+decim.format(this.tot)+"\n"+
-                        "Given Amount\t=\t"+decim.format(this.giv)+"\n"+
-                        "Balance \t=\t"+decim.format(this.bal)+"\n";
+        String footter =  "\nTotal Amount=\t"+decim.format(this.tot)+"\n"+
+                        "Given Amount=\t"+decim.format(this.giv)+"\n"+
+                        "Balance     =\t"+decim.format(this.bal)+"\n";
         return footter;
     }
     private String setTagLine() {
-        String tag = "****************************************\n"+
-                     "\tCoconut Oil: Miracle of Nature\n\n";
+        String tag = "*****************************\n"+
+                     "Coconut Oil-Miracle of Nature\n\n";
         return tag;
     }
 
@@ -161,7 +161,7 @@ public class printControl {
 
             String billBody="";
             for(Product p:bill) {
-                billBody += p.getName() + "\t" + p.getQuantity() + "\t" + p.getUnit() + "\t" + p.getTotal();
+                billBody += p.getName() + " " + p.getQuantity() + " " + p.getUnit() + " " + p.getTotal();
                 billBody += "\n";
             }
             TextFlow body = new TextFlow(new Text(billBody));
@@ -188,7 +188,7 @@ public class printControl {
 
         String printArea=this.setHeader()+billBody+this.setFooter()+this.setTagLine();
 
-        System.out.println(printArea);
+     //   System.out.println(printArea);
 
         return printArea;
     }
@@ -200,9 +200,13 @@ public class printControl {
      //   PrintService printService[] = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.GIF, pras);
         PrintService printService[] = PrintServiceLookup.lookupPrintServices(flavor, pras);
         PrintService service = this.findPrintService(printerName, printService);
-        if(service==null) return;
+        String billText = this.formatBill(bill);
+        if(service==null) {
+            System.out.println(billText);
+            return;
+        }
         DocPrintJob job = service.createPrintJob();
-        byte[] bytes = this.formatBill(bill).getBytes();
+        byte[] bytes = billText.getBytes();
         Doc doc = new SimpleDoc(bytes, flavor, null);
 
         try {
