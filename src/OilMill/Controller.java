@@ -40,8 +40,8 @@ public class Controller {
 
     public static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
-    public static final String DATABASE_USERNAME = "sathindu";
-    public static final String DATABASE_PASSWORD = "123456";
+    public static final String DATABASE_USERNAME = "user";
+    public static final String DATABASE_PASSWORD = "sathindu";
     private static final DataConnection data = new DataConnection();
 
     public static HashMap<Integer, String> productNames = null;
@@ -320,5 +320,15 @@ public class Controller {
         newWindow.setScene(new Scene(root));
         edit.setStage(newWindow);
         newWindow.show();
+    }
+
+    public void deleteRaw(KeyEvent keyEvent) throws SQLException {
+        KeyCode keyCode = keyEvent.getCode();
+        if (keyCode.equals(KeyCode.DELETE)) {
+            ObservableList<Product> rows = tableView.getItems();
+            Product p=tableView.getSelectionModel().getSelectedItem();
+            rows.remove(p);
+            data.deleteSale(currentDate, p);
+        }
     }
 }

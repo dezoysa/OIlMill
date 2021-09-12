@@ -47,10 +47,13 @@ public class printControl {
 
     private PrintService findPrintService(String printerName,PrintService[] services) {
         for (PrintService service : services) {
-            System.out.println(service.getName());
+           // System.out.println(service.getName());
             if (service.getName().equalsIgnoreCase(printerName)) {
-               System.out.println("Found");
+                System.out.println("Found "+printerName);
                 return service;
+            } else{
+                System.out.println(printerName+" was not found");
+                return null;
             }
         }
         return null;
@@ -60,8 +63,11 @@ public class printControl {
         ObservableSet<Printer> printers = Printer.getAllPrinters();
         for (Printer printer : printers) {
             if (printer.getName().equalsIgnoreCase(printerName)) {
-                System.out.println("Found");
+                System.out.println("Found "+printerName);
                 return printer;
+            } else {
+                System.out.println(printerName+" was not found");
+                return null;
             }
         }
         return null;

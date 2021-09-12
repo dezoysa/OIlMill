@@ -155,4 +155,14 @@ public class DataConnection {
         statement.executeUpdate();
 
     }
+
+    public void deleteSale(LocalDate localDate,Product p)throws SQLException{
+        String con="code="+p.getCode()+" AND unit="+p.getUnit()+" AND quantity="+p.getQuantity()+" AND total="+p.getTotal();
+        Date date = Date.valueOf(localDate);
+        con+=" AND date="+"\""+date.toString()+"\"";
+        String sql = "DELETE FROM sales WHERE "+con;
+    //    System.out.println(sql);
+        PreparedStatement stmnt = connection.prepareStatement(sql);
+        stmnt.executeUpdate();
+    }
 }
