@@ -50,7 +50,7 @@ public class Product {
 
     public String getQuantity() {
         if(quantity==0) return "";
-        else return String.format("%.2f", quantity);
+        else return String.format("%.1f", quantity);
     }
     public void setQuantity(double q) {
         this.quantity = q;

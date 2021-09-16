@@ -40,8 +40,9 @@ public class Controller {
 
     public static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
-    public static final String DATABASE_USERNAME = "user";
-    public static final String DATABASE_PASSWORD = "sathindu";
+    public static final String DATABASE_USERNAME = "sathindu";
+    public static final String DATABASE_PASSWORD = "Kasun@home1";
+
     private static final DataConnection data = new DataConnection();
 
     public static HashMap<Integer, String> productNames = null;
@@ -65,6 +66,7 @@ public class Controller {
         LocalDate  localDate = LocalDate.now();
         date.setValue(localDate);
         stat.setText(this.productNames.toString());
+
     }
 
     public void prepareTable() {

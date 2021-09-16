@@ -32,7 +32,8 @@ public class printControl {
     private final Date  date = new Date();
     private final String printDate = dateFormat.format(date);
     private final String printTime = timeFormat.format(date);
-    private final DecimalFormat decim = new DecimalFormat("0.00");
+    //private final DecimalFormat decim1 = new DecimalFormat("0.0");
+    private final DecimalFormat decim2 = new DecimalFormat("0.00");
 
     private final double tot;
     private final double giv;
@@ -74,7 +75,7 @@ public class printControl {
     }
 
     private String setHeader() {
-         String header = "         Sekkuwa\n" +
+         String header = "          Sekkuwa\n" +
                         "        091-2255898\n" +
                         "Date:"+printDate+"\tTime:"+printTime+"\n"
                         +"----------------------------\n"
@@ -85,14 +86,14 @@ public class printControl {
 
 
     private String setFooter() {
-        String footter =  "\nTotal Amount=\t"+decim.format(this.tot)+"\n"+
-                        "Given Amount=\t"+decim.format(this.giv)+"\n"+
-                        "Balance     =\t"+decim.format(this.bal)+"\n";
+        String footter =  "\nTotal Amount=\t"+decim2.format(this.tot)+"\n"+
+                        "Given Amount=\t"+decim2.format(this.giv)+"\n"+
+                        "Balance     =\t"+decim2.format(this.bal)+"\n";
         return footter;
     }
     private String setTagLine() {
-        String tag = "*****************************\n"+
-                     "Coconut Oil-Miracle of Nature\n\n";
+        String tag = "****************************\n"+
+                     "Coconut -  Miracle of Nature\n\n";
         return tag;
     }
 
@@ -161,7 +162,7 @@ public class printControl {
 
             String billBody="";
             for(Product p:bill) {
-                billBody += p.getName() + " " + p.getQuantity() + " " + p.getUnit() + " " + p.getTotal();
+                billBody += p.getName() + "\t" + p.getQuantity() + "\t" + p.getUnit() + "\t" + p.getTotal();
                 billBody += "\n";
             }
             TextFlow body = new TextFlow(new Text(billBody));
