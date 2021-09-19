@@ -16,6 +16,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -319,10 +320,15 @@ public class Controller {
                 balance.setText(this.printDouble(bal));
 
 
-                printControl printBill=new printControl(total,given,bal);
                 //Printing the bill
+                List<Double> footerData=new ArrayList<>();
+                footerData.add(total);
+                footerData.add(Double.valueOf(given));
+                footerData.add(bal);
+
                 //  printBill.printView(bill);
-                printBill.print(bill);
+                printControl print=new printControl("TM-T82-S-A");
+                print.printBill(bill,footerData);
 
                 if (bal < 0) {
                     //Update the sale table

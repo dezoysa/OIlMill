@@ -102,9 +102,13 @@ public class Edit {
         this.addStatTableRow(0,"Cash in Hand",cashInHand);
 
         //Printing the bill
-        printControl printBill=new printControl(totalSale+cashIn,cashOut,cashInHand);
-        printBill.print(p);
-
+        printControl printBill=new printControl();
+        List<Double> footer=new ArrayList<>();
+        footer.add(kilo); footer.add((totalSale-punak)/kilo);
+        footer.add(totalSale-punak); footer.add(totalSale);
+        footer.add(cashIn); footer.add(cashOut);
+        footer.add(cashInHand);
+        printBill.printStat(p,footer);
     }
 
 

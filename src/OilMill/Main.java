@@ -18,11 +18,9 @@ public class Main extends Application {
         controller.prepareTable();
         primaryStage.setTitle("New Wellamadda Oil Mills");
         Scene scene= new Scene(root, 620, 720);
-        scene.getRoot().setStyle("-fx-font-family: Courier; -fx-font-size: 14pt");
-
-
-      //  scene.getRoot().setStyle(setStyleText);
-
+        //scene.getRoot().setStyle("-fx-font-family: Courier; -fx-font-size: 14pt");
+       // String setStyleText="-fx-font-size: 14pt";
+        //scene.getRoot().setStyle(setStyleText);
         primaryStage.setScene(scene);
 
         primaryStage.setOnShown(event-> {
