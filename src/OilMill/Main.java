@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -15,7 +17,13 @@ public class Main extends Application {
         Controller controller = loader.getController();
         controller.prepareTable();
         primaryStage.setTitle("New Wellamadda Oil Mills");
-        primaryStage.setScene(new Scene(root, 620, 720));
+        Scene scene= new Scene(root, 620, 720);
+        scene.getRoot().setStyle("-fx-font-family: Courier; -fx-font-size: 14pt");
+
+
+      //  scene.getRoot().setStyle(setStyleText);
+
+        primaryStage.setScene(scene);
 
         primaryStage.setOnShown(event-> {
             controller.date.requestFocus();

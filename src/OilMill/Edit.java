@@ -9,6 +9,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Edit {
@@ -45,27 +47,64 @@ public class Edit {
         price.setStyle("-fx-alignment: CENTER-RIGHT;");
         price.setText("Total");
 
-        double killo=0;
+        double kilo=0;
         double punak=0;
-        for (int code : Controller.productNames.keySet()){
-            if(code==0) continue;
-            double quan=connection.getProductQuantity(Controller.currentDate,code);
-            if(quan==0) continue;
-            double total= connection.getProductTotal(Controller.currentDate,code);
-            String name=Controller.productNames.get(code);
+        double quan=0;
+        double total=0;
 
-            if(name.toLowerCase().contains("litter")) killo+=quan * 0.9;
-            else if (name.toLowerCase().contains("bottle")) killo+=quan * 0.675;
-            else if (name.toLowerCase().contains("killo")) killo+=quan;
-            else  if (name.toLowerCase().contains("punak")) punak+=total;
+        List<Product> p = new ArrayList<>();
+        //Bottles
+        quan=connection.getProductQuantity(Controller.currentDate,1);
+        quan+= connection.getProductQuantity(Controller.currentDate,11);
+        total=connection.getProductTotal(Controller.currentDate,1);
+        total+=connection.getProductTotal(Controller.currentDate,11);
+        kilo+=quan*.67;
+        this.addStatTableRow(quan,"Bottles",total);
+        p.add(new Product(1,"Bottle",(int)(total/quan),quan,total));
 
-            this.addStatTableRow(quan,name,total);
-        }
+        //Litters
+        quan=connection.getProductQuantity(Controller.currentDate,2);
+        quan+= connection.getProductQuantity(Controller.currentDate,22);
+        total=connection.getProductTotal(Controller.currentDate,2);
+        total+=connection.getProductTotal(Controller.currentDate,22);
+        kilo+=quan*.9;
+        this.addStatTableRow(quan,"Litters",total);
+        p.add(new Product(1,"Litter",(int)(total/quan),quan,total));
+
+        //Kilos
+        quan=connection.getProductQuantity(Controller.currentDate,3);
+        quan+= connection.getProductQuantity(Controller.currentDate,33);
+        total=connection.getProductTotal(Controller.currentDate,3);
+        total+=connection.getProductTotal(Controller.currentDate,33);
+        kilo+=quan;
+        this.addStatTableRow(quan,"Kilos",total);
+        p.add(new Product(1,"Killo",(int)(total/quan),quan,total));
+
+
+        //Punak
+        quan=connection.getProductQuantity(Controller.currentDate,4);
+        punak=connection.getProductTotal(Controller.currentDate,4);
+        this.addStatTableRow(quan,"Punak",punak);
+        p.add(new Product(1,"Punak",(int)(punak/quan),quan,punak));
+
+
         double totalSale=connection.getTotalSale(Controller.currentDate);
-        this.addStatTableRow(0,"Total Sale",totalSale);
+        double cashInHand=connection.getCashInHand(Controller.currentDate);
+        double cashOut=connection.getCashOut(Controller.currentDate);
+        double cashIn=connection.getCashIn(Controller.currentDate);
+
+        this.addStatTableRow(0,"Oil Sale in Kilo",kilo);
+        this.addStatTableRow(0,"Per Kilo Price",(totalSale-punak)/kilo);
         this.addStatTableRow(0,"Oil Sale",totalSale-punak);
-        this.addStatTableRow(0,"Oil Sale in Kilo",killo);
-        this.addStatTableRow(0,"Per Kilo Price",(totalSale-punak)/killo);
+        this.addStatTableRow(0,"Total Sale",totalSale);
+        this.addStatTableRow(0,"Cash In",cashIn);
+        this.addStatTableRow(0,"Cash out",cashOut);
+        this.addStatTableRow(0,"Cash in Hand",cashInHand);
+
+        //Printing the bill
+        printControl printBill=new printControl(totalSale+cashIn,cashOut,cashInHand);
+        printBill.print(p);
+
     }
 
 

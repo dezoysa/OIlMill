@@ -12,6 +12,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -40,8 +41,10 @@ public class Controller {
 
     public static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
-    public static final String DATABASE_USERNAME = "sathindu";
-    public static final String DATABASE_PASSWORD = "Kasun@home1";
+    public static final String DATABASE_USERNAME = "user";
+    public static final String DATABASE_PASSWORD = "sathindu";
+    // public static final String DATABASE_USERNAME = "sathindu";
+    // public static final String DATABASE_PASSWORD = "Kasun@home1";
 
     private static final DataConnection data = new DataConnection();
 
@@ -53,6 +56,7 @@ public class Controller {
     public static LocalDate currentDate = null;
 
 
+    // This function connect the databse and initialize fields.
     public void initialize() throws SQLException, ClassNotFoundException {
         data.DataAccessor(DATABASE_DRIVER, DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
         price = data.getPriceList();
@@ -69,6 +73,7 @@ public class Controller {
 
     }
 
+    // This function shows the table view
     public void prepareTable() {
         //  TableView tableView = new TableView();
 
@@ -91,6 +96,15 @@ public class Controller {
         return String.format("%.2f",number);
     }
 
+    //Check the product code
+    private boolean isCode(Set<Integer> codes,int num){
+        for (int code:codes)
+            if(code == num) return true ;
+
+        return false;
+    }
+
+    //Read the date
     public void readDate(KeyEvent keyEvent) throws SQLException {
 
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
@@ -113,23 +127,32 @@ public class Controller {
         }
     }
 
-    public void readCode(KeyEvent keyEvent) {
+    //Step 1: Reading the product code
+    public void readCode(KeyEvent keyEvent) throws SQLException {
         KeyCode keyCode = keyEvent.getCode();
         String value = id.getText();
 
         if (keyCode.equals(KeyCode.SPACE)) {
+            //Moving to Step 4: Finalizing  the bill
             if(billTotal.getText().equals("")) return;
             if(Double.parseDouble(billTotal.getText())<=0) return;
             id.setDisable(true);
-            quan.setText("");
-            unitPrice.setText("");
+          //  quan.setText("");
+          //  unitPrice.setText("");
             cashGiven.setDisable(false);
             cashGiven.requestFocus();
 
+        } else if (keyCode.equals(KeyCode.ESCAPE)){
+            //Delete the bill and start it over
+            this.deleteBill();
+
         } else if (value.matches("\\d+")) {
+
+            //Reading the code number
             int code = Integer.parseInt(value);
             productName.setText(productNames.get(code));
 
+            //initializing a new bill
             if(bill.isEmpty()) {
                 cashGiven.setText("");
                 balance.setText("");
@@ -137,13 +160,21 @@ public class Controller {
             }
 
             if (keyCode.equals(KeyCode.ENTER)) {
+
                 if(code == 0) {
+                    //if code is cash moving to the step 3
+                    // Reading product Quantity
+
                     id.setDisable(true);
                     unitPrice.setText("");
                     quan.setDisable(false);
                     quan.requestFocus();
                 } else if(isCode(this.price.keySet(),code)){
+
+                    //In case of valid product code moving to the step 2
+                    // Reading product Quantity
                     id.setDisable(true);
+                    quan.setText("");
                     unitPrice.setDisable(false);
                     unitPrice.requestFocus();
                     unitPrice.setText(Integer.toString(price.get(code)));
@@ -154,25 +185,24 @@ public class Controller {
         keyEvent.consume();
     }
 
-    private boolean isCode(Set<Integer> codes,int num){
-        for (int code:codes)
-            if(code == num) return true ;
 
-            return false;
-    }
-
-    public void setUnitPrice(KeyEvent keyEvent) {
+    //Step 2: Reading the unit price
+    public void setUnitPrice(KeyEvent keyEvent) throws SQLException {
         KeyCode keyCode = keyEvent.getCode();
         String value = unitPrice.getText();
 
+
         if (keyCode.equals(KeyCode.ESCAPE)) {
+            //Delete the bill and start over
             id.setDisable(false);
             unitPrice.setDisable(true);
             id.requestFocus();
+            this.deleteBill();
         }
 
         if (value.matches("\\d+")) {
             if (keyCode.equals(KeyCode.ENTER)) {
+                //Moving to the step 3: Reading product Quantity
                 unitPrice.setDisable(true);
                 quan.setDisable(false);
                 quan.requestFocus();
@@ -183,15 +213,19 @@ public class Controller {
         keyEvent.consume();
     }
 
+    //Step3 : Reading the product quantity
     public void readQuantity(KeyEvent keyEvent) throws SQLException {
         String idValue = id.getText();
         String unitValue = unitPrice.getText();
 
         KeyCode keyCode=keyEvent.getCode();
         if (keyCode.equals(KeyCode.ESCAPE)) {
+            //Delete the bill and start over
             id.setDisable(false);
             quan.setDisable(true);
             id.requestFocus();
+
+            this.deleteBill();
         }
 
         String quanValue = quan.getText();
@@ -202,6 +236,9 @@ public class Controller {
                 int unitPrice =1;
                 if(code!=0) unitPrice = Integer.parseInt(unitValue);
                 double quantity = Double.parseDouble(quanValue);
+
+                //Adding the entry to tableview and database
+                //Moving to Step 1 to read the next product
                 if (quantity != 0) this.addTableRaw(code, unitPrice, quantity);
                 quan.setDisable(true);
                 id.setDisable(false);
@@ -211,16 +248,25 @@ public class Controller {
         keyEvent.consume();
     }
 
+    //Adding the entry to tableview and database
     public void addTableRaw(int code, int uniPrice,double quantity) throws SQLException {
 
         if (isCode(productNames.keySet(), code)) {
             Product p = new Product(code, productNames.get(code), uniPrice, quantity);
+
+            //Adding to the table view
             tableView.getItems().add(p);
             tableView.scrollTo(p);
+
+            //Adding the bill
             if (code != 0) {
                 bill.add(p);
             }
+
+            //Adding to the database
             data.putSale(currentDate, p);
+
+            //Update the bill information
             cashTotal.setText(this.printDouble(this.getTotal()));
             billTotal.setText(this.printDouble(this.getBillTotal()));
         } else {
@@ -229,6 +275,7 @@ public class Controller {
         }
     }
 
+    //Calculating the case in hand vale
     public double getTotal() {
         ObservableList<Product> rows = tableView.getItems();
         int total = 0;
@@ -238,6 +285,7 @@ public class Controller {
         return total;
     }
 
+    //Calculating the bill total
     public double getBillTotal() {
         double total = 0;
         for (Product p : bill) {
@@ -246,20 +294,23 @@ public class Controller {
         return total;
     }
 
+    //Step 4: Reading the given cash amount
     public void readCash(KeyEvent keyEvent) throws SQLException{
         String value = cashGiven.getText();
 
         KeyCode keyCode=keyEvent.getCode();
 
         if (keyCode.equals(KeyCode.ESCAPE)) {
+            //Delete the bill and start over
             id.setDisable(false);
             cashGiven.setDisable(true);
             id.requestFocus();
+            this.deleteBill();
         }
 
 
         if (value.matches("\\d+")) {
-
+            //Printing the bill and moving back to Step 1
             if (keyCode.equals(KeyCode.ENTER)) {
                 int given = Integer.parseInt(cashGiven.getText());
                 double total=this.getBillTotal();
@@ -267,21 +318,23 @@ public class Controller {
                 billTotal.setText(this.printDouble(total));
                 balance.setText(this.printDouble(bal));
 
+
                 printControl printBill=new printControl(total,given,bal);
-              //  printBill.printView(bill);
+                //Printing the bill
+                //  printBill.printView(bill);
                 printBill.print(bill);
 
                 if (bal < 0) {
+                    //Update the sale table
                     Product p = new Product(0,"Cash",1, bal);
                     tableView.getItems().add(p);
                     data.putSale(currentDate, p);
                     cashTotal.setText(this.printDouble(this.getTotal()));
                 }
 
+                //Clearing the bill and start over
                 if (bill != null) bill.clear();
-             //   balance.setText("");
-               // billTotal.setText("");
-               // cashGiven.setText("");
+
                 id.setText("");
                 unitPrice.setText("");
                 quan.setText("");
@@ -293,11 +346,7 @@ public class Controller {
         keyEvent.consume();
     }
 
-    public void closeApp(ActionEvent actionEvent) throws SQLException {
-        data.shutdown();
-        System.exit(0);
-    }
-
+    //Editing the product table
     public void edit(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("edit.fxml"));
         Parent root = loader.load();
@@ -311,6 +360,7 @@ public class Controller {
         stat.setText(this.productNames.toString());
     }
 
+    //Showing and printing the daily sale report
     public void stat(ActionEvent actionEvent) throws IOException, SQLException {
         if(this.currentDate==null) return;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("edit.fxml"));
@@ -324,6 +374,7 @@ public class Controller {
         newWindow.show();
     }
 
+    //Deleting the selected raw from the databse
     public void deleteRaw(KeyEvent keyEvent) throws SQLException {
         KeyCode keyCode = keyEvent.getCode();
         if (keyCode.equals(KeyCode.DELETE)) {
@@ -331,7 +382,29 @@ public class Controller {
             Product p=tableView.getSelectionModel().getSelectedItem();
             rows.remove(p);
             data.deleteSale(currentDate, p);
-            //here
         }
     }
+
+    //Deleting the presant bill without closing
+    public void deleteBill() throws SQLException {
+        if (bill== null) return;
+        ObservableList<Product> rows = tableView.getItems();
+        for (Product p : bill) {
+            rows.remove(p);
+            data.deleteSale(currentDate, p);
+        }
+        bill.clear();
+
+        quan.setText("");
+        unitPrice.setText("");
+        balance.setText("");
+        billTotal.setText("");
+    }
+
+    ///Closing the application
+    public void closeApp(ActionEvent actionEvent) throws SQLException {
+        data.shutdown();
+        System.exit(0);
+    }
+
 }

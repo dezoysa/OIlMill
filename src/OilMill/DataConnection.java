@@ -68,6 +68,40 @@ public class DataConnection {
         else return 0;
     }
 
+    public double getCashInHand(LocalDate date) throws SQLException {
+        String sql="SELECT SUM(total) FROM sales WHERE date=\""+date.toString()+"\"";
+        PreparedStatement statement =  connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+        result.next();
+        String value = result.getString(1);
+        if (value!=null) return Double.parseDouble(value);
+        else return 0;
+    }
+
+    public double getCashOut(LocalDate date) throws SQLException {
+        String sql="SELECT * FROM sales WHERE code=0 and date=\""+date.toString()+"\"";
+        PreparedStatement statement =  connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+        double total=0;
+        while (result.next()) {
+            double x = Double.parseDouble(result.getString("total"));
+            if(x<0) total+=x;
+        }
+        return total;
+    }
+
+    public double getCashIn(LocalDate date) throws SQLException {
+        String sql="SELECT * FROM sales WHERE code=0 and date=\""+date.toString()+"\"";
+        PreparedStatement statement =  connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+        double total=0;
+        while (result.next()) {
+            double x = Double.parseDouble(result.getString("total"));
+            if(x>0) total+=x;
+        }
+        return total;
+    }
+
     public HashMap<Integer,String> getProductNames() throws SQLException {
         try (
                 Statement stmnt = connection.createStatement();
