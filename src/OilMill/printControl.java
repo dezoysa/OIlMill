@@ -49,7 +49,7 @@ public class printControl {
 
     private PrintService findPrintService(String printerName,PrintService[] services) {
         for (PrintService service : services) {
-           // System.out.println(service.getName());
+       //     System.out.println(service.getName());
             if (service.getName().equalsIgnoreCase(printerName)) {
                 System.out.println("Found "+printerName);
                 return service;
@@ -198,13 +198,13 @@ public class printControl {
     //Printing the footer of the daily report
     private String setStatFooter(List<Double> footer) {
 
-        String foot="\nTotal Kilo\t= "+String.format("%12.2f",footer.get(0));
-        foot+="\nKilo Price\t= "+String.format("%12.2f",footer.get(1));
-        foot+="\nOil Sale  \t= "+String.format("%12.2f",footer.get(2));
-        foot+="\nTotal Sale\t= "+String.format("%12.2f",footer.get(3));
-        foot+="\nCash in   \t= "+String.format("%12.2f",footer.get(4));
-        foot+="\nCash out  \t= "+String.format("%12.2f",footer.get(5));
-        foot+="\nCash      \t= "+String.format("%12.2f",footer.get(6));
+        String foot="\nTotal Kilo\t= "+String.format("%10.2f",footer.get(0));
+        foot+="\nKilo Price\t= "+String.format("%10.2f",footer.get(1));
+        foot+="\nOil Sale  \t= "+String.format("%10.2f",footer.get(2));
+        foot+="\nTotal Sale\t= "+String.format("%10.2f",footer.get(3));
+        foot+="\nCash in   \t= "+String.format("%10.2f",footer.get(4));
+        foot+="\nCash out  \t= "+String.format("%10.2f",footer.get(5));
+        foot+="\nCash      \t= "+String.format("%10.2f",footer.get(6));
         foot+="\n";
 
         return foot;
@@ -221,7 +221,7 @@ public class printControl {
     private String setBillFooter(List<Double> footer) {
         String foot="\nTotal Amount\t= "+String.format("%10.2f",footer.get(0));
         foot+="\nGiven Amount\t= "+String.format("%10.2f",footer.get(1));
-        foot+="\nBalance\t\t\t= "+String.format("%10.2f",footer.get(2));
+        foot+="\nBalance\t\t= "+String.format("%10.2f",footer.get(2));
         foot+="\n";
         return foot;
     }
@@ -240,9 +240,9 @@ public class printControl {
 
         PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
      //   PrintService printService[] = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.GIF, pras);
-        PrintService printService[] = PrintServiceLookup.lookupPrintServices(flavor, pras);
+     //   PrintService printService[] = PrintServiceLookup.lookupPrintServices(flavor, pras);
+        PrintService printService[] = PrintServiceLookup.lookupPrintServices(flavor,pras);
         PrintService service = this.findPrintService(printerName, printService);
-      //  String billText = this.formatBill(bill);
         if(service==null) {
             System.out.println(billText);
             return;

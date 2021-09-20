@@ -25,18 +25,25 @@ public class Edit {
     @FXML private Label title;
 
     private static Stage stage;
+    private List<Product> printStat = new ArrayList<>();
+    private List<Double> footer=new ArrayList<>();
+
 
     DataConnection connection = new DataConnection();
 
+    //Connecting to the database
     public void initialize() throws SQLException, ClassNotFoundException {
         connection.DataAccessor(Controller.DATABASE_DRIVER, Controller.DATABASE_URL, Controller.DATABASE_USERNAME, Controller.DATABASE_PASSWORD);
     }
 
+    //Prepare and show the sales summary view
     public void setStatTable() throws SQLException {
         title.setText("Sales Summary on "+Controller.currentDate.toString());
         add.setVisible(false);
         delete.setVisible(false);
-        save.setVisible(false);
+        //Change Save button to Print
+        save.setVisible(true);
+        save.setText("Print");
 
         code.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         code.setStyle("-fx-alignment: CENTER-LEFT;");
@@ -52,66 +59,64 @@ public class Edit {
         double quan=0;
         double total=0;
 
-        List<Product> p = new ArrayList<>();
-        //Bottles
+        //Get Bottles summary
         quan=connection.getProductQuantity(Controller.currentDate,1);
         quan+= connection.getProductQuantity(Controller.currentDate,11);
         total=connection.getProductTotal(Controller.currentDate,1);
         total+=connection.getProductTotal(Controller.currentDate,11);
         kilo+=quan*.67;
         this.addStatTableRow(quan,"Bottles",total);
-        p.add(new Product(1,"Bottle",(int)(total/quan),quan,total));
+        printStat.add(new Product(1,"Bottle",(int)(total/quan),quan,total));
 
-        //Litters
+        //Get Litters summary
         quan=connection.getProductQuantity(Controller.currentDate,2);
         quan+= connection.getProductQuantity(Controller.currentDate,22);
         total=connection.getProductTotal(Controller.currentDate,2);
         total+=connection.getProductTotal(Controller.currentDate,22);
         kilo+=quan*.9;
         this.addStatTableRow(quan,"Litters",total);
-        p.add(new Product(1,"Litter",(int)(total/quan),quan,total));
+        printStat.add(new Product(1,"Litter",(int)(total/quan),quan,total));
 
-        //Kilos
+        //Get Kilos summary
         quan=connection.getProductQuantity(Controller.currentDate,3);
         quan+= connection.getProductQuantity(Controller.currentDate,33);
         total=connection.getProductTotal(Controller.currentDate,3);
         total+=connection.getProductTotal(Controller.currentDate,33);
         kilo+=quan;
         this.addStatTableRow(quan,"Kilos",total);
-        p.add(new Product(1,"Killo",(int)(total/quan),quan,total));
+        printStat.add(new Product(1,"Killo",(int)(total/quan),quan,total));
 
 
-        //Punak
+        //Punak summary
         quan=connection.getProductQuantity(Controller.currentDate,4);
         punak=connection.getProductTotal(Controller.currentDate,4);
         this.addStatTableRow(quan,"Punak",punak);
-        p.add(new Product(1,"Punak",(int)(punak/quan),quan,punak));
+        printStat.add(new Product(1,"Punak",(int)(punak/quan),quan,punak));
 
 
+        //Calculate the total summary
         double totalSale=connection.getTotalSale(Controller.currentDate);
         double cashInHand=connection.getCashInHand(Controller.currentDate);
         double cashOut=connection.getCashOut(Controller.currentDate);
         double cashIn=connection.getCashIn(Controller.currentDate);
 
         this.addStatTableRow(0,"Oil Sale in Kilo",kilo);
-        this.addStatTableRow(0,"Per Kilo Price",(totalSale-punak)/kilo);
+        if(kilo>0) this.addStatTableRow(0,"Per Kilo Price",(totalSale-punak)/kilo);
         this.addStatTableRow(0,"Oil Sale",totalSale-punak);
         this.addStatTableRow(0,"Total Sale",totalSale);
         this.addStatTableRow(0,"Cash In",cashIn);
         this.addStatTableRow(0,"Cash out",cashOut);
         this.addStatTableRow(0,"Cash in Hand",cashInHand);
 
-        //Printing the bill
-        printControl printBill=new printControl();
-        List<Double> footer=new ArrayList<>();
+        //Add the totoal summary as footer of the report
         footer.add(kilo); footer.add((totalSale-punak)/kilo);
         footer.add(totalSale-punak); footer.add(totalSale);
         footer.add(cashIn); footer.add(cashOut);
         footer.add(cashInHand);
-        printBill.printStat(p,footer);
     }
 
 
+    //Show the editable table to change products
     public void setEditTable(){
 
         code.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -157,8 +162,16 @@ public class Edit {
         this.stage = stage;
     }
 
-
+    //Saving the edit record or printing the bill
     public void save(MouseEvent mouseEvent) throws SQLException {
+
+        //Printing the bill
+        if(save.getText().contains("Print")){
+            //Printing the bill
+            printControl printBill=new printControl();
+            printBill.printStat(printStat,footer);
+        }
+
         ObservableList<Product> rows = edit_table.getItems();
         Set <Integer> keys=Controller.productNames.keySet();
 
@@ -194,6 +207,7 @@ public class Edit {
         addEditTableRow(0,"Type code,name and price in this raw)",0);
     }
 
+    //Delete the product row
     public void delete(MouseEvent mouseEvent) throws SQLException {
         Product p=edit_table.getSelectionModel().getSelectedItem();
         Integer code=Integer.parseInt(p.getCode());

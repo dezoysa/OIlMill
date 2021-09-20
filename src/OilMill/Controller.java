@@ -327,7 +327,7 @@ public class Controller {
                 footerData.add(bal);
 
                 //  printBill.printView(bill);
-                printControl print=new printControl("TM-T82-S-A");
+                printControl print=new printControl();
                 print.printBill(bill,footerData);
 
                 if (bal < 0) {
