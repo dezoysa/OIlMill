@@ -1,12 +1,12 @@
 package OilMill;
 
-import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+//UPDATE sales SET code = REPLACE(code,9,4);
 
 public class DataConnection {
     private java.sql.Connection connection ;

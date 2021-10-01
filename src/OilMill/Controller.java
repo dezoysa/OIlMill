@@ -165,7 +165,6 @@ public class Controller {
                 if(code == 0) {
                     //if code is cash moving to the step 3
                     // Reading product Quantity
-
                     id.setDisable(true);
                     unitPrice.setText("");
                     quan.setDisable(false);
@@ -177,9 +176,14 @@ public class Controller {
                     id.setDisable(true);
                     quan.setText("");
                     unitPrice.setDisable(false);
-                    unitPrice.requestFocus();
+                   // unitPrice.requestFocus();
+                   // unitPrice.selectAll();
                     unitPrice.setText(Integer.toString(price.get(code)));
-                    unitPrice.selectAll();
+                    //Jump to Quantity
+                    quan.requestFocus();
+                    quan.setDisable(false);
+                    quan.requestFocus();
+
                 } else id.setText("");
             }
         } else id.setText("");
@@ -388,6 +392,7 @@ public class Controller {
             Product p=tableView.getSelectionModel().getSelectedItem();
             rows.remove(p);
             data.deleteSale(currentDate, p);
+            cashTotal.setText(this.printDouble(this.getTotal()));
         }
     }
 
@@ -405,6 +410,7 @@ public class Controller {
         unitPrice.setText("");
         balance.setText("");
         billTotal.setText("");
+        cashTotal.setText(this.printDouble(this.getTotal()));
     }
 
     ///Closing the application
