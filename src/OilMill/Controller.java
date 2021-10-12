@@ -388,11 +388,25 @@ public class Controller {
     public void deleteRaw(KeyEvent keyEvent) throws SQLException {
         KeyCode keyCode = keyEvent.getCode();
         if (keyCode.equals(KeyCode.DELETE)) {
-            ObservableList<Product> rows = tableView.getItems();
-            Product p=tableView.getSelectionModel().getSelectedItem();
-            rows.remove(p);
-            data.deleteSale(currentDate, p);
-            cashTotal.setText(this.printDouble(this.getTotal()));
+          //  Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete  this raw? ", ButtonType.NO,  ButtonType.YES,ButtonType.CANCEL);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete  this raw? ");
+            alert.getButtonTypes().clear();
+            alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
+            //Deactivate Defaultbehavior for yes-Button:
+            Button yesButton = (Button) alert.getDialogPane().lookupButton( ButtonType.YES );
+            yesButton.setDefaultButton( false );
+            //Activate Defaultbehavior for no-Button:
+            Button noButton = (Button) alert.getDialogPane().lookupButton( ButtonType.NO );
+            noButton.setDefaultButton( true );
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.YES) {
+
+                ObservableList<Product> rows = tableView.getItems();
+                Product p = tableView.getSelectionModel().getSelectedItem();
+                rows.remove(p);
+                data.deleteSale(currentDate, p);
+                cashTotal.setText(this.printDouble(this.getTotal()));
+            }
         }
     }
 
