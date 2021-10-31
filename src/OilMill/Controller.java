@@ -41,11 +41,12 @@ public class Controller {
     @FXML public Button stat;
 
     public static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
-    public static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
-    public static final String DATABASE_USERNAME = "user";
-    public static final String DATABASE_PASSWORD = "sathindu";
-    // public static final String DATABASE_USERNAME = "sathindu";
-    // public static final String DATABASE_PASSWORD = "Kasun@home1";
+ //   public static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
+    public static final String DATABASE_URL = "jdbc:mysql://sg2plcpnl0239.prod.sin2.secureserver.net/mill?";
+ //   public static final String DATABASE_USERNAME = "user";
+ //   public static final String DATABASE_PASSWORD = "sathindu";
+     public static final String DATABASE_USERNAME = "sathindu";
+     public static final String DATABASE_PASSWORD = "Kasun@home1";
 
     private static final DataConnection data = new DataConnection();
 
