@@ -121,6 +121,7 @@ public class DataConnection {
         try (
                 Statement stmnt = connection.createStatement();
                 ResultSet rs = stmnt.executeQuery("select * from sales where date=\""+date.toString()+"\"")
+
         ){
             List<Product> personList = new ArrayList<>();
             while (rs.next()) {
@@ -195,8 +196,16 @@ public class DataConnection {
         Date date = Date.valueOf(localDate);
         con+=" AND date="+"\""+date.toString()+"\"";
         String sql = "DELETE FROM sales WHERE "+con;
-    //    System.out.println(sql);
         PreparedStatement stmnt = connection.prepareStatement(sql);
         stmnt.executeUpdate();
     }
+
+    public void deleteAllSales(LocalDate localDate)throws SQLException{
+        Date date = Date.valueOf(localDate);
+        String con="date="+"\""+date.toString()+"\"";
+        String sql = "DELETE FROM sales WHERE "+con;
+        PreparedStatement stmnt = connection.prepareStatement(sql);
+        stmnt.executeUpdate();
+    }
+
 }

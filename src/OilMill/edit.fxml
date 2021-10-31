@@ -31,7 +31,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="17.0" prefWidth="467.0" text="New Wallamadda Oill Mill's Product List" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="17.0" prefWidth="467.0" text="New Wallamadda Oil Mill's Product List" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

@@ -12,11 +12,9 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -41,12 +39,11 @@ public class Controller {
     @FXML public Button stat;
 
     public static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
- //   public static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
-    public static final String DATABASE_URL = "jdbc:mysql://sg2plcpnl0239.prod.sin2.secureserver.net/mill?";
- //   public static final String DATABASE_USERNAME = "user";
- //   public static final String DATABASE_PASSWORD = "sathindu";
-     public static final String DATABASE_USERNAME = "sathindu";
-     public static final String DATABASE_PASSWORD = "Kasun@home1";
+    public static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
+    public static final String DATABASE_USERNAME = "user";
+    public static final String DATABASE_PASSWORD = "sathindu";
+ //    public static final String DATABASE_USERNAME = "sathindu";
+ //    public static final String DATABASE_PASSWORD = "Kasun@home1";
 
     private static final DataConnection data = new DataConnection();
 
@@ -58,7 +55,7 @@ public class Controller {
     public static LocalDate currentDate = null;
 
 
-    // This function connect the databse and initialize fields.
+    // This function connect the database and initialize fields.
     public void initialize() throws SQLException, ClassNotFoundException {
         data.DataAccessor(DATABASE_DRIVER, DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
         price = data.getPriceList();
@@ -71,7 +68,7 @@ public class Controller {
 
         LocalDate  localDate = LocalDate.now();
         date.setValue(localDate);
-        stat.setText(this.productNames.toString());
+        stat.setText(productNames.toString());
 
     }
 
@@ -139,8 +136,6 @@ public class Controller {
             if(billTotal.getText().equals("")) return;
             if(Double.parseDouble(billTotal.getText())<=0) return;
             id.setDisable(true);
-          //  quan.setText("");
-          //  unitPrice.setText("");
             cashGiven.setDisable(false);
             cashGiven.requestFocus();
 
@@ -170,15 +165,14 @@ public class Controller {
                     unitPrice.setText("");
                     quan.setDisable(false);
                     quan.requestFocus();
-                } else if(isCode(this.price.keySet(),code)){
+                } else if(isCode(price.keySet(),code)){
 
                     //In case of valid product code moving to the step 2
                     // Reading product Quantity
                     id.setDisable(true);
                     quan.setText("");
                     unitPrice.setDisable(false);
-                   // unitPrice.requestFocus();
-                   // unitPrice.selectAll();
+
                     unitPrice.setText(Integer.toString(price.get(code)));
                     //Jump to Quantity
                     quan.requestFocus();
@@ -328,7 +322,7 @@ public class Controller {
                 //Printing the bill
                 List<Double> footerData=new ArrayList<>();
                 footerData.add(total);
-                footerData.add(Double.valueOf(given));
+                footerData.add((double) given);
                 footerData.add(bal);
 
                 //  printBill.printView(bill);
@@ -345,7 +339,6 @@ public class Controller {
 
                 //Clearing the bill and start over
                 if (bill != null) bill.clear();
-
                 id.setText("");
                 unitPrice.setText("");
                 quan.setText("");
@@ -368,12 +361,13 @@ public class Controller {
         newWindow.setScene(new Scene(root));
         edit.setStage(newWindow);
         newWindow.showAndWait();
-        stat.setText(this.productNames.toString());
+        stat.setText(productNames.toString());
+        actionEvent.consume();
     }
 
     //Showing and printing the daily sale report
     public void stat(ActionEvent actionEvent) throws IOException, SQLException {
-        if(this.currentDate==null) return;
+        if(currentDate==null) return;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("edit.fxml"));
         Parent root = loader.load();
         Edit edit = loader.getController();
@@ -383,9 +377,10 @@ public class Controller {
         newWindow.setScene(new Scene(root));
         edit.setStage(newWindow);
         newWindow.show();
+        actionEvent.consume();
     }
 
-    //Deleting the selected raw from the databse
+    //Deleting the selected raw from the database
     public void deleteRaw(KeyEvent keyEvent) throws SQLException {
         KeyCode keyCode = keyEvent.getCode();
         if (keyCode.equals(KeyCode.DELETE)) {
@@ -393,10 +388,10 @@ public class Controller {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete  this raw? ");
             alert.getButtonTypes().clear();
             alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
-            //Deactivate Defaultbehavior for yes-Button:
+            //Deactivate default behavior for yes-Button:
             Button yesButton = (Button) alert.getDialogPane().lookupButton( ButtonType.YES );
             yesButton.setDefaultButton( false );
-            //Activate Defaultbehavior for no-Button:
+            //Activate default behavior for no-Button:
             Button noButton = (Button) alert.getDialogPane().lookupButton( ButtonType.NO );
             noButton.setDefaultButton( true );
             alert.showAndWait();
@@ -411,7 +406,7 @@ public class Controller {
         }
     }
 
-    //Deleting the presant bill without closing
+    //Deleting the current bill without closing
     public void deleteBill() throws SQLException {
         if (bill== null) return;
         ObservableList<Product> rows = tableView.getItems();
@@ -432,6 +427,25 @@ public class Controller {
     public void closeApp(ActionEvent actionEvent) throws SQLException {
         data.shutdown();
         System.exit(0);
+        actionEvent.consume();
     }
 
+    //Backup the sales table to godaddy
+    public void backupData(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        String BACKUP_DATABASE_URL = "jdbc:mysql://sg2plcpnl0239.prod.sin2.secureserver.net/mill?";
+        String DATABASE_USERNAME = "sathindu";
+        String DATABASE_PASSWORD = "Kasun@home1";
+        DataConnection backupServer = new DataConnection();
+        backupServer.DataAccessor(DATABASE_DRIVER, BACKUP_DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
+        if (currentDate != null) {
+            List<Product> sales = data.getSalesList(currentDate);
+            backupServer.deleteAllSales(currentDate);
+            for(Product sale:sales) {
+                backupServer.putSale(currentDate, sale);
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Successfully Backup "+sales.size()+" records.");
+            alert.showAndWait();
+        }
+        actionEvent.consume();
+    }
 }

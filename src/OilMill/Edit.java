@@ -108,7 +108,7 @@ public class Edit {
         this.addStatTableRow(0,"Cash out",cashOut);
         this.addStatTableRow(0,"Cash in Hand",cashInHand);
 
-        //Add the totoal summary as footer of the report
+        //Add the total summary as footer of the report
         footer.add(kilo); footer.add((totalSale-punak)/kilo);
         footer.add(totalSale-punak); footer.add(totalSale);
         footer.add(cashIn); footer.add(cashOut);
@@ -194,7 +194,7 @@ public class Edit {
         }
 
         this.stage.close();
-
+        mouseEvent.consume();
     }
 
     private boolean isCode(Set<Integer> codes, int num){
@@ -205,6 +205,7 @@ public class Edit {
 
     public void add(MouseEvent mouseEvent) {
         addEditTableRow(0,"Type code,name and price in this raw)",0);
+        mouseEvent.consume();
     }
 
     //Delete the product row
@@ -218,9 +219,11 @@ public class Edit {
             Controller.price.remove(code);
             connection.delete(code);
         }
+        mouseEvent.consume();
     }
 
     public void cancel(MouseEvent mouseEvent) {
         this.stage.close();
+        mouseEvent.consume();
     }
 }

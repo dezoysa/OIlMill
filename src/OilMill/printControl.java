@@ -1,25 +1,8 @@
 package OilMill;
 
-import com.mysql.cj.util.StringUtils;
-import com.sun.javafx.print.PrintHelper;
-import com.sun.javafx.print.Units;
-import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.print.*;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
-import javafx.scene.transform.Scale;
-import javafx.stage.Stage;
-
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -33,8 +16,7 @@ public class printControl {
     private final Date  date = new Date();
     private final String printDate = dateFormat.format(date);
     private final String printTime = timeFormat.format(date);
-    //private final DecimalFormat decim1 = new DecimalFormat("0.0");
-    private final DecimalFormat decim2 = new DecimalFormat("0.00");
+   // private final DecimalFormat decim2 = new DecimalFormat("0.00");
 
 
     private  String printerName;

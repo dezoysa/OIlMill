@@ -113,7 +113,9 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Close" />
+                <MenuItem mnemonicParsing="false" onAction="#backupData" text="Backup" />
+                <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Close" />
+
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Products">
