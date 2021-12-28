@@ -13,6 +13,7 @@ package OilMill;
          --name OillMill \
          --main-jar OIlMill.jar \
          --main-class OilMill.NewMain \
+         --icon OilMill.icns \
         --mac-package-name OilMill \
         --java-options -Xmx2048m
         --app-version 1.00
