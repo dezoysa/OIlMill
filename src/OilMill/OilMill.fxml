@@ -113,6 +113,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem fx:id="changeDB" mnemonicParsing="false" onAction="#changeDB" text="Remote DB" />
                 <MenuItem mnemonicParsing="false" onAction="#backupData" text="Backup" />
                 <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Close" />
 

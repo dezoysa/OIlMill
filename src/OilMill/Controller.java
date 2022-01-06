@@ -37,17 +37,15 @@ public class Controller {
     @FXML public Label productName;
     @FXML public TextField unitPrice;
     @FXML public Button stat;
+    @FXML public MenuItem changeDB;
 
     public static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
 
- //   public static final String DATABASE_URL = "jdbc:mysql://localhost/mill?";
-    public static final String DATABASE_URL = "jdbc:mysql://sg2plcpnl0239.prod.sin2.secureserver.net/mill?";
-    public static final String DATABASE_USERNAME = "sathindu";
-    public static final String DATABASE_PASSWORD = "Kasun@home1";
-
-    //public static final String DATABASE_USERNAME = "user";
-    //public static final String DATABASE_PASSWORD = "sathindu";
-
+    //Establish local database connection
+    public static boolean localDB=true;
+    public static String DATABASE_URL = "jdbc:mysql://localhost/mill?";
+    public static  String DATABASE_USERNAME = "user";
+    public static  String DATABASE_PASSWORD = "sathindu";
     private static final DataConnection data = new DataConnection();
 
     public static HashMap<Integer, String> productNames = null;
@@ -435,6 +433,11 @@ public class Controller {
 
     //Backup the sales table to godaddy
     public void backupData(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        if(!localDB){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Running with the Remote DB\nBackup Disable");
+            alert.showAndWait();
+            return;
+        }
         String BACKUP_DATABASE_URL = "jdbc:mysql://sg2plcpnl0239.prod.sin2.secureserver.net/mill?";
         String DATABASE_USERNAME = "sathindu";
         String DATABASE_PASSWORD = "Kasun@home1";
@@ -451,4 +454,27 @@ public class Controller {
         }
         actionEvent.consume();
     }
+
+    public void changeDB(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        if(localDB){
+            //change to remote DB
+            this.DATABASE_URL = "jdbc:mysql://sg2plcpnl0239.prod.sin2.secureserver.net/mill?";
+            this.DATABASE_USERNAME = "sathindu";
+            this.DATABASE_PASSWORD = "Kasun@home1";
+            localDB=false;
+            changeDB.setText("Local DB");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Successfully connected to the remote DB.");
+            alert.showAndWait();
+        } else{
+            this.DATABASE_URL = "jdbc:mysql://localhost/mill?";
+            this.DATABASE_USERNAME = "user";
+            this.DATABASE_PASSWORD = "sathindu";
+            localDB=true;
+            changeDB.setText("Remote DB");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Successfully connected to the local DB.");
+        }
+        data.shutdown();
+        this.initialize();
+    }
+
 }
