@@ -195,8 +195,9 @@ public class DataConnection {
         String con="code="+p.getCode()+" AND unit="+p.getUnit()+" AND quantity="+p.getQuantity()+" AND total="+p.getTotal();
         Date date = Date.valueOf(localDate);
         con+=" AND date="+"\""+date.toString()+"\"";
-       // String sql = "DELETE FROM sales WHERE "+con;
-        String sql = "DELETE TOP(1) FROM sales WHERE "+con;
+    //    String sql = "DELETE FROM sales WHERE "+con;
+        String sql = "DELETE FROM sales WHERE "+con+" LIMIT 1";
+
         PreparedStatement stmnt = connection.prepareStatement(sql);
         stmnt.executeUpdate();
     }
