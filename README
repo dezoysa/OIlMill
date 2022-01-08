@@ -4,3 +4,56 @@ sips -z 128 128 icon.png --out icon_128x128.png
 mv icon_128x128.png OilMill.iconset
 iconutil --convert icns OilMill.iconset
 
+mkdir ShowTime.iconset
+sips -z 128 128 ShowTime.png --out ShowTime.iconset/icon_128x128.png
+iconutil --convert icns ShowTime.iconset
+
+jpackage \
+  --type app-image \
+  --verbose \
+  --input input \
+  --dest output \
+  --name CliffsNotes \
+  --main-jar CliffsNotesEditor-0.1.jar \
+  --main-class com.alvinalexander.cliffsnotes.CliffsNotesGui \
+  --icon CliffsNotes.icns \
+  --module-path /Users/al/bin/jdk-14.0.1.jdk/Contents/Home/jmods \
+  --add-modules java.base,javafx.controls,javafx.web,javafx.graphics,javafx.media,java.datatransfer,java.desktop,java.scripting,java.xml,jdk.jsobject,jdk.unsupported,jdk.unsupported.desktop,jdk.xml.dom,javafx.fxml,java.naming,java.sql,jdk.charsets \
+  --mac-package-name CliffsNotes \
+  --mac-package-identifier com.alvinalexander.cliffsnotes.CliffsNotesGui \
+  --java-options -Xmx2048m
+
+
+/Library/Java/JavaVirtualMachines/jdk-15.0.1.jdk/Contents/Home/bin/jpackage \
+  --type app-image \
+  --verbose \
+  --input Lekana_jar \
+  --dest output \
+  --name Lekana \
+  --main-jar Lekana.jar \
+  --main-class Lekana.NewMain \
+  --icon Lekana.icns \
+  --mac-package-name Lekana
+
+//MAC Packing Command here
+ /Library/Java/JavaVirtualMachines/jdk-15.0.1.jdk/Contents/Home/bin/jpackage \
+     --type dmg \
+     --verbose \
+     --input OIlMill_jar \
+     --dest output \
+     --name OIlMill \
+     --main-jar OilMill.jar \
+     --main-class OilMill.NewMain \
+     --icon OilMill.icns \
+     --mac-package-name OilMill \
+     --java-options -Xmx2048m \
+     --app-version 2.5
+
+
+//Windows packing command
+"c:\Program Files\Java\jdk-15.0.1\bin\jpackage" --type msi --verbose --input Lekana_jar --dest output --name Lekana --main-jar Lekana.jar --main-class Lekana.NewMain --icon lekana.ico --win-shortcut --app-version 1.02 --license-file License.txt
+
+//Manifest file
+Manifest-Version: 1.0
+Main-Class: Lekana.NewMain
+Class-Path: bcprov-jdk15on-167.jar bcpkix-jdk15on-167.jar jsch-0.1.55.jar
