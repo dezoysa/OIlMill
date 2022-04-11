@@ -477,4 +477,18 @@ public class Controller {
         this.initialize();
     }
 
+    public void balance(ActionEvent actionEvent) throws IOException {
+        if(currentDate==null) return;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Balance.fxml"));
+        Parent root = loader.load();
+        Balance balance = loader.getController();
+        Stage newWindow = new Stage();
+        newWindow.setTitle("New Wellamadda Oil Mills");
+        newWindow.setScene(new Scene(root));
+
+        balance.setStage(newWindow,cashTotal.getText());
+
+        newWindow.show();
+        actionEvent.consume();
+    }
 }

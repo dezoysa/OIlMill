@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="327.0" prefWidth="363.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="OilMill.Balance">
+   <children>
+      <TextField onKeyReleased="#read1000" fx:id="n1000" layoutX="87.0" layoutY="53.0" prefHeight="27.0" prefWidth="80.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="27.0" layoutY="53.0" prefHeight="27.0" prefWidth="41.0" text="1000" textAlignment="LEFT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField onKeyReleased="#read500" fx:id="n500" layoutX="242.0" layoutY="53.0" prefHeight="27.0" prefWidth="80.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="182.0" layoutY="53.0" prefHeight="27.0" prefWidth="47.0" text="500" textAlignment="LEFT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField onKeyReleased="#read100" fx:id="n100" layoutX="87.0" layoutY="94.0" prefHeight="27.0" prefWidth="80.0" />
+      <Label alignment="TOP_RIGHT" layoutX="27.0" layoutY="94.0" prefHeight="27.0" prefWidth="41.0" text="100" textAlignment="LEFT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField onKeyReleased="#read50" fx:id="n50" layoutX="242.0" layoutY="94.0" prefHeight="27.0" prefWidth="80.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="182.0" layoutY="94.0" prefHeight="27.0" prefWidth="41.0" text="50" textAlignment="LEFT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField onKeyReleased="#read20" fx:id="n20" layoutX="87.0" layoutY="137.0" prefHeight="27.0" prefWidth="80.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="27.0" layoutY="137.0" prefHeight="27.0" prefWidth="41.0" text="20" textAlignment="LEFT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField onKeyReleased="#readCoin" fx:id="nCoin" layoutX="242.0" layoutY="137.0" prefHeight="27.0" prefWidth="80.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="182.0" layoutY="137.0" prefHeight="27.0" prefWidth="47.0" text="Coins" textAlignment="LEFT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="185.0" prefHeight="29.0" prefWidth="104.0" text="Total">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="total" layoutX="162.0" layoutY="186.0" />
+      <Label layoutX="52.0" layoutY="229.0" prefHeight="29.0" prefWidth="104.0" text="Available">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="cTotal" layoutX="163.0" layoutY="230.0" />
+      <Label layoutX="52.0" layoutY="267.0" prefHeight="29.0" prefWidth="104.0" text="Balance">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="balance" layoutX="163.0" layoutY="268.0" />
+      <Label alignment="CENTER" layoutX="29.0" layoutY="8.0" prefHeight="29.0" prefWidth="286.0" text="Cash Available " textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

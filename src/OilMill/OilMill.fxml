@@ -123,6 +123,7 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#edit" text="Edit Records" />
                 <MenuItem mnemonicParsing="false" onAction="#stat" text="Sale Summary" />
+                <MenuItem mnemonicParsing="false" onAction="#balance" text="Check Balance" />
 
             </items>
           </Menu>
