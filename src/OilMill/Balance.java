@@ -45,8 +45,10 @@ public class Balance {
             if (keyCode.equals(KeyCode.ENTER)) {
                 nCoin.setText(Integer.toString(Integer.parseInt(value)*1));
                 int t=this.Total();
-                int b=cashTot-t;
+                int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
+                if(b<0) balance.setStyle("-fx-text-inner-color: red;");
+                else balance.setStyle("-fx-text-inner-color: black;");
                 balance.setText(Integer.toString(b));
                 nCoin.requestFocus();
             }
@@ -66,8 +68,10 @@ public class Balance {
             if (keyCode.equals(KeyCode.ENTER)) {
                 n20.setText(Integer.toString(Integer.parseInt(value)*20));
                 int t=this.Total();
-                int b=cashTot-t;
+                int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
+                if(b<0) balance.setStyle("-fx-text-inner-color: red;");
+                else balance.setStyle("-fx-text-inner-color: black;");
                 balance.setText(Integer.toString(b));
                 nCoin.requestFocus();
             }
@@ -86,8 +90,10 @@ public class Balance {
             if (keyCode.equals(KeyCode.ENTER)) {
                 n50.setText(Integer.toString(Integer.parseInt(value)*50));
                 int t=this.Total();
-                int b=cashTot-t;
+                int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
+                if(b<0) balance.setStyle("-fx-text-inner-color: red;");
+                else balance.setStyle("-fx-text-inner-color: black;");
                 balance.setText(Integer.toString(b));
                 n20.requestFocus();
             }
@@ -106,8 +112,10 @@ public class Balance {
             if (keyCode.equals(KeyCode.ENTER)) {
                 n100.setText(Integer.toString(Integer.parseInt(value)*100));
                 int t=this.Total();
-                int b=cashTot-t;
+                int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
+                if(b<0) balance.setStyle("-fx-text-inner-color: red;");
+                else balance.setStyle("-fx-text-inner-color: black;");
                 balance.setText(Integer.toString(b));
                 n50.requestFocus();
             }
@@ -126,8 +134,10 @@ public class Balance {
             if (keyCode.equals(KeyCode.ENTER)) {
                 n500.setText(Integer.toString(Integer.parseInt(value)*500));
                 int t=this.Total();
-                int b=cashTot-t;
+                int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
+                if(b<0) balance.setStyle("-fx-text-inner-color: red;");
+                else balance.setStyle("-fx-text-inner-color: black;");
                 balance.setText(Integer.toString(b));
                 n100.requestFocus();
             }
@@ -146,8 +156,10 @@ public class Balance {
             if (keyCode.equals(KeyCode.ENTER)) {
                 n1000.setText(Integer.toString(Integer.parseInt(value)*1000));
                 int t=this.Total();
-                int b=cashTot-t;
+                int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
+                if(b<0) balance.setStyle("-fx-text-inner-color: red;");
+                else balance.setStyle("-fx-text-inner-color: black;");
                 balance.setText(Integer.toString(b));
                 n500.requestFocus();
             }
