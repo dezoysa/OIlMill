@@ -491,4 +491,12 @@ public class Controller {
         newWindow.show();
         actionEvent.consume();
     }
+
+    public void about(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Version 2.6\n2022/04/11");
+        alert.setTitle("About Window");
+        alert.setHeaderText("Oil Mill Software");
+        alert.showAndWait();
+        return;
+    }
 }
