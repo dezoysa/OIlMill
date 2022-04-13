@@ -43,6 +43,9 @@ public class Controller {
 
     //Establish local database connection
     public static boolean localDB=true;
+    public static  int cashTot=0;
+    public static  int cashAvl;
+
     public static String DATABASE_URL = "jdbc:mysql://localhost/mill?";
     public static  String DATABASE_USERNAME = "user";
     public static  String DATABASE_PASSWORD = "sathindu";
@@ -486,7 +489,8 @@ public class Controller {
         newWindow.setTitle("New Wellamadda Oil Mills");
         newWindow.setScene(new Scene(root));
 
-        balance.setStage(newWindow,cashTotal.getText());
+        this.cashTot=(int)Double.parseDouble(cashTotal.getText());
+        balance.setStage(newWindow);
 
         newWindow.show();
         actionEvent.consume();
