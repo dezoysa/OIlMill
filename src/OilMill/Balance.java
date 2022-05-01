@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 public class Balance {
 
     private static Stage stage;
-    private int cashTot=0;
     @FXML private TextField n1000;
     @FXML private TextField n500;
     @FXML private TextField n100;
@@ -20,12 +19,15 @@ public class Balance {
     @FXML private TextField total;
     @FXML private TextField balance;
 
-    public void setStage(Stage stage, String t){
+    public void setStage(Stage stage){
         this.stage = stage;
-        int x=(int)Double.parseDouble(t);
-        total.setText(Integer.toString(x));
-        balance.setText(Integer.toString(x));
-        cashTot=Integer.parseInt(total.getText());
+        total.setText(Integer.toString(Controller.cashTot));
+        cTotal.setText(Integer.toString(Controller.cashAvl));
+        int b=Controller.cashAvl- Controller.cashTot;
+
+        if(b<0) balance.setStyle("-fx-text-inner-color: red;");
+        else balance.setStyle("-fx-text-inner-color: black;");
+        balance.setText(Integer.toString(b));
 
         n1000.setText("0");
         n500.setText("0");
@@ -33,7 +35,7 @@ public class Balance {
         n50.setText("0");
         n20.setText("0");
         nCoin.setText("0");
-        cTotal.setText("0");
+        cTotal.setText(Integer.toString(Controller.cashAvl));
 
     }
 
@@ -41,12 +43,16 @@ public class Balance {
         String value = nCoin.getText();
         KeyCode keyCode = keyEvent.getCode();
 
+        if(keyCode.equals(KeyCode.ESCAPE)){
+            stage.close();
+        }
+
         if (value.matches("\\d+")) {
             if (keyCode.equals(KeyCode.ENTER)) {
                 nCoin.setText(Integer.toString(Integer.parseInt(value)*1));
-                int t=this.Total();
-                int b=t-cashTot;
-                cTotal.setText(Integer.toString(t));
+                Controller.cashAvl=this.Total();
+                int b=Controller.cashAvl- Controller.cashTot;
+                cTotal.setText(Integer.toString(Controller.cashAvl));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
                 else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
@@ -63,13 +69,16 @@ public class Balance {
     public void read20(KeyEvent keyEvent) {
         String value = n20.getText();
         KeyCode keyCode = keyEvent.getCode();
+        if(keyCode.equals(KeyCode.ESCAPE)){
+            stage.close();
+        }
 
         if (value.matches("\\d+")) {
             if (keyCode.equals(KeyCode.ENTER)) {
                 n20.setText(Integer.toString(Integer.parseInt(value)*20));
-                int t=this.Total();
-                int b=t-cashTot;
-                cTotal.setText(Integer.toString(t));
+                Controller.cashAvl=this.Total();
+                int b=Controller.cashAvl- Controller.cashTot;
+                cTotal.setText(Integer.toString(Controller.cashAvl));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
                 else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
@@ -85,13 +94,16 @@ public class Balance {
     public void read50(KeyEvent keyEvent) {
         String value = n50.getText();
         KeyCode keyCode = keyEvent.getCode();
+        if(keyCode.equals(KeyCode.ESCAPE)){
+            stage.close();
+        }
 
         if (value.matches("\\d+")) {
             if (keyCode.equals(KeyCode.ENTER)) {
                 n50.setText(Integer.toString(Integer.parseInt(value)*50));
-                int t=this.Total();
-                int b=t-cashTot;
-                cTotal.setText(Integer.toString(t));
+                Controller.cashAvl=this.Total();
+                int b=Controller.cashAvl- Controller.cashTot;
+                cTotal.setText(Integer.toString(Controller.cashAvl));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
                 else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
@@ -107,13 +119,16 @@ public class Balance {
     public void read100(KeyEvent keyEvent) {
         String value = n100.getText();
         KeyCode keyCode = keyEvent.getCode();
+        if(keyCode.equals(KeyCode.ESCAPE)){
+            stage.close();
+        }
 
         if (value.matches("\\d+")) {
             if (keyCode.equals(KeyCode.ENTER)) {
                 n100.setText(Integer.toString(Integer.parseInt(value)*100));
-                int t=this.Total();
-                int b=t-cashTot;
-                cTotal.setText(Integer.toString(t));
+                Controller.cashAvl=this.Total();
+                int b=Controller.cashAvl- Controller.cashTot;
+                cTotal.setText(Integer.toString(Controller.cashAvl));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
                 else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
@@ -129,13 +144,16 @@ public class Balance {
     public void read500(KeyEvent keyEvent) {
         String value = n500.getText();
         KeyCode keyCode = keyEvent.getCode();
+        if(keyCode.equals(KeyCode.ESCAPE)){
+            stage.close();
+        }
 
         if (value.matches("\\d+")) {
             if (keyCode.equals(KeyCode.ENTER)) {
                 n500.setText(Integer.toString(Integer.parseInt(value)*500));
-                int t=this.Total();
-                int b=t-cashTot;
-                cTotal.setText(Integer.toString(t));
+                Controller.cashAvl=this.Total();
+                int b=Controller.cashAvl- Controller.cashTot;
+                cTotal.setText(Integer.toString(Controller.cashAvl));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
                 else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
@@ -151,13 +169,16 @@ public class Balance {
     public void read1000(KeyEvent keyEvent) {
         String value = n1000.getText();
         KeyCode keyCode = keyEvent.getCode();
+        if(keyCode.equals(KeyCode.ESCAPE)){
+            stage.close();
+        }
 
         if (value.matches("\\d+")) {
             if (keyCode.equals(KeyCode.ENTER)) {
                 n1000.setText(Integer.toString(Integer.parseInt(value)*1000));
-                int t=this.Total();
-                int b=t-cashTot;
-                cTotal.setText(Integer.toString(t));
+                Controller.cashAvl=this.Total();
+                int b=Controller.cashAvl- Controller.cashTot;
+                cTotal.setText(Integer.toString(Controller.cashAvl));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
                 else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
