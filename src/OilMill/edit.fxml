@@ -7,35 +7,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="478.0" prefWidth="557.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="OilMill.Edit">
+<AnchorPane prefHeight="478.0" prefWidth="584.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="OilMill.Edit">
    <children>
-      <TableView fx:id="edit_table" editable="true" layoutX="17.0" layoutY="49.0" prefHeight="361.0" prefWidth="516.0">
+      <TableView fx:id="edit_table" editable="true" layoutX="20.0" layoutY="51.0" prefHeight="364.0" prefWidth="539.0">
         <columns>
           <TableColumn fx:id="code" prefWidth="112.0" resizable="false" text="Code" />
           <TableColumn fx:id="name" minWidth="9.0" prefWidth="266.0" resizable="false" text="Name" />
             <TableColumn fx:id="price" minWidth="4.0" prefWidth="137.0" resizable="false" text="Price" />
         </columns>
       </TableView>
-      <Button fx:id="save" layoutX="309.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#save" prefHeight="29.0" prefWidth="100.0" text="Save">
+      <Button fx:id="save" layoutX="335.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#save" prefHeight="29.0" prefWidth="100.0" text="Save">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="add" layoutX="17.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#add" prefHeight="29.0" prefWidth="118.0" text="Add Product">
+      <Button fx:id="add" layoutX="20.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#add" prefHeight="29.0" prefWidth="118.0" text="Add Product">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="delete" layoutX="155.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#delete" text="Delete Product">
+      <Button fx:id="delete" layoutX="161.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#delete" text="Delete Product">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="17.0" prefWidth="467.0" text="New Wallamadda Oil Mill's Product List" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="17.0" prefWidth="539.0" text="New Wallamadda Oil Mill's Product List" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="434.0" layoutY="427.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="27.0" prefWidth="100.0" text="Cancel" />
+      <Button layoutX="459.0" layoutY="427.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="27.0" prefWidth="100.0" text="Cancel" />
    </children>
 </AnchorPane>

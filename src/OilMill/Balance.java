@@ -48,7 +48,7 @@ public class Balance {
                 int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
-                else balance.setStyle("-fx-text-inner-color: black;");
+                else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
                 nCoin.requestFocus();
             }
@@ -71,7 +71,7 @@ public class Balance {
                 int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
-                else balance.setStyle("-fx-text-inner-color: black;");
+                else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
                 nCoin.requestFocus();
             }
@@ -93,7 +93,7 @@ public class Balance {
                 int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
-                else balance.setStyle("-fx-text-inner-color: black;");
+                else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
                 n20.requestFocus();
             }
@@ -115,7 +115,7 @@ public class Balance {
                 int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
-                else balance.setStyle("-fx-text-inner-color: black;");
+                else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
                 n50.requestFocus();
             }
@@ -137,7 +137,7 @@ public class Balance {
                 int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
-                else balance.setStyle("-fx-text-inner-color: black;");
+                else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
                 n100.requestFocus();
             }
@@ -159,7 +159,7 @@ public class Balance {
                 int b=t-cashTot;
                 cTotal.setText(Integer.toString(t));
                 if(b<0) balance.setStyle("-fx-text-inner-color: red;");
-                else balance.setStyle("-fx-text-inner-color: black;");
+                else balance.setStyle("-fx-text-inner-color: green;");
                 balance.setText(Integer.toString(b));
                 n500.requestFocus();
             }
