@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `price` (
   `code` int NOT NULL,
   `price` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `price`
@@ -52,7 +52,7 @@ INSERT INTO `price` (`code`, `price`) VALUES
 CREATE TABLE `product` (
   `code` int NOT NULL,
   `name` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `product`
@@ -77,7 +77,7 @@ CREATE TABLE `sales` (
   `quantity` decimal(10,0) NOT NULL,
   `total` double NOT NULL,
   `date` tinytext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
