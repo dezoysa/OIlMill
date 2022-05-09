@@ -66,7 +66,7 @@ public class Edit {
         total=connection.getProductTotal(Controller.currentDate,1);
         this.addStatTableRow(quan,"Bottle No1",total);
         printStat.add(new Product(1,"BottleN1",(int)(total/quan),quan,total));
-        kiloNo1+=quan*.67;
+        kiloNo1+=quan*.69;
         //Get Litters summary
         quan=connection.getProductQuantity(Controller.currentDate,2);
         total=connection.getProductTotal(Controller.currentDate,2);
@@ -87,7 +87,7 @@ public class Edit {
         total=connection.getProductTotal(Controller.currentDate,11);
         this.addStatTableRow(quan,"Bottle No2",total);
         printStat.add(new Product(1,"BottleN2",(int)(total/quan),quan,total));
-        kiloNo2+=quan*.67;
+        kiloNo2+=quan*.69;
         //Get Litters summary
         quan= connection.getProductQuantity(Controller.currentDate,22);
         total=connection.getProductTotal(Controller.currentDate,22);
